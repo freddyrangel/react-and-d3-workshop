@@ -1,0 +1,56 @@
+body {
+  font-family: Helvetica;
+}
+.banner-image-container {
+  text-align: center;
+  background-color: #222222;
+}
+
+.banner-image {
+  max-height: 400px;
+}
+
+.outer-container {
+  margin: 0 auto;
+  width: 70%;
+  max-width: 600px;
+}
+
+h1, h2{
+  text-align: center;
+}
+
+article {
+  border: 2px solid #bbb;
+  border-radius: 3px;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+p {
+  text-indent: 1em;
+  line-height: 1.5;
+}
+
+li {
+  line-height: 1.5;
+}
+
+.module-title {
+  margin: 60px 0 20px;
+  padding: 5px;
+  text-align: center;
+  border-bottom: 2px solid #bbb;
+}
+.module h3 {
+  text-align: center;
+}
+
+.module img {
+  width: 100%;
+  margin: 50px 0;
+}
+
+.codepen-container {
+  margin: 50px 0;
+}

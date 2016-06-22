@@ -7,6 +7,215 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
-  <h1>React and D3 Workshop</h1>
+
+  <div class="banner-image-container">
+    <img class="banner-image" src="images/react-d3.png" alt="React and D3 Banner Title">
+  </div>
+
+  <div class="outer-container">
+    <h1>React and D3</h1>
+
+    <section class="intro">
+
+      <article class="leader">
+        <p>
+        Thanks for coming to our React and D3 workshop! We're really excited to
+        teach you all about how to get these 2 great libraries working together
+        to create data visualizations. We have a lot to cover so we might have
+        to move quickly if we want to touch on all the important points.
+        </p>
+      </article>
+
+      <article class="instructor-intro">
+
+        <h2>Your Instructors</h2>
+
+        <h3>Freddy Rangel</h3>
+
+        <ul>
+          <li>
+            Front-End Engineer at HelloSign
+          </li>
+          <li>
+            Author of "React Under the Hood" and the upcoming book "React: The
+            Good Parts"
+          </li>
+          <li>
+            Contributor to React
+          </li>
+          <li>
+            <a href="https://twitter.com/frangel85">@frangel85</a>
+          </li>
+        </ul>
+
+        <h3>Swizec Teller</h3>
+
+        <ul>
+          <li>
+            Web Engineer
+          </li>
+          <li>
+            Author of "React+d3js ES6, Data Visualization with d3.js"
+          </li>
+          <li>
+            Google me.
+          </li>
+          <li>
+            <a href="https://twitter.com/swizec">@swizec</a>
+          </li>
+        </ul>
+      </article>
+
+      <article class="logistics">
+
+        <h2>Logistics</h2>
+
+        <ul>
+          <li>WiFi</li>
+          <li>Coffee</li>
+          <li>Lunch</li>
+          <li>Bathrooms</li>
+        </ul>
+      </article>
+
+      <article class="syllabus">
+
+        <h2>What You Will Be Learning</h2>
+
+        <h3>Module 1: Why React and D3</h3>
+        <ul>
+          <li>Benefits of Componentization</li>
+          <li>Declarative Data Visualization</li>
+          <li>Reusability</li>
+          <li>Structure at a Glance</li>
+          <li>Better Testing and Debugging</li>
+        </ul>
+
+        <h3>Module 2: React 101</h3>
+        <ul>
+          <li>Declarative Components</li>
+          <li>JSX</li>
+          <li>Rendering to the DOM</li>
+          <li>Reusing Components</li>
+          <li>Functional Programming with React</li>
+          <li>Managing State</li>
+          <li>User Input</li>
+          <li>
+            Practical exercise: Rendering to the DOM, Managing State, and User
+            Interaction
+          </li>
+          <li>Practical exercise: FreeCodeCamp Survey Data Table</li>
+        </ul>
+
+        <h3>Module 3: D3.js 101</h3>
+        <ul>
+          <li>D3 the Key Parts</li>
+          <li>Scales</li>
+          <li>Data manipulation</li>
+          <li>Data Loading</li>
+          <li>D3 the Good Parts</li>
+          <li>Selections</li>
+          <li>Axes</li>
+          <li>Shapes</li>
+          <li>D3 the Other Parts</li>
+        </ul>
+
+        <h3>Module 4: D3 + React Integration</h3>
+        <ul>
+          <li>D3 Does Props</li>
+          <li>Practical exercise: FreeCodeCamp Survey Barchart</li>
+          <li>Practical exercise: FreeCodeCamp Survey Scatterplot</li>
+          <li>Black Box Components</li>
+          <li>Practical exercise: Adding axes</li>
+          <li>Hybrid Approach</li>
+        </ul>
+
+        <h3>Module 5: Make it betterer</h3>
+        <ul>
+          <li>Practical exercise: Interactive Data Visualization</li>
+          <li>Practical exercise: D3.js Transitions</li>
+        </ul>
+      </article>
+
+      <article class="questions">
+        <h2>Questions Before We Start?</h2>
+
+        <ul>
+          <li>What do you hope to learn?</li>
+          <li>What are your specific problems?</li>
+          <li>How much experience do you have with either React and/or D3?</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="modules">
+      <h2 class="module-title">Module 1: Why React and D3?</h2>
+      <article class="module">
+        <p>
+        D3 is great out of the box. There's nothing inherently wrong it it at
+        all. It's flexible and gets the job done. You don't necessarily need
+        React nor any other library to create data visualizations.
+        </p>
+
+        <p>
+        So why use React? There are a few really good reasons why React makes
+        your data visualization code even better.
+        </p>
+
+        <h3>Declarative Components</h3>
+
+        <div class="alphabet"></div>
+
+        <p>
+        React views are declarative and easy to understand. For example, here is
+        some of the code for the visualization above:
+        </p>
+
+        <div class="codepen-container">
+          <p data-height="600" data-theme-id="24335" data-slug-hash="vKyZQj" data-default-tab="js" data-editable="true" data-user="freddyrangel" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/vKyZQj/">d3-alphabet</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+        </div>
+
+        <p>
+        Just by looking at this you can figure out more or less what it does.
+        The equivalent in pure D3 would be much more imperative and difficult to
+        understand at a glance.
+        </p>
+
+        <h3>Reusable Components</h3>
+
+        <img src="images/reusable-components.png" alt="Reusable Componenets">
+
+        <div class="codepen-container">
+          <p data-height="775" data-theme-id="24335" data-slug-hash="MebQwQ" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/MebQwQ/">reusable-d3-components</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+        </div>
+
+        <h3>Better Performance</h3>
+
+        <p>
+        Typically, updating the DOM will be the performance bottleneck for your
+        application. React, when used in production mode, is orders of magnitude
+        faster at updating the DOM than D3 or any other rendering library.
+        </p>
+      </article>
+
+      <h2 class="module-title">Module 2: React 101</h2>
+      <article class="module">
+      </article>
+
+      <h2 class="module-title">Module 3: D3.js 101</h2>
+      <article class="module">
+      </article>
+
+      <h2 class="module-title">Module 4: D3 + React Integration</h2>
+      <article class="module">
+      </article>
+
+      <h2 class="module-title">Module 5: Make it betterer</h2>
+      <article class="module">
+      </article>
+    </section>
+  </div>
+  <script src="/bundles/alphabet.js"></script>
+  <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
 </body>
 </html>

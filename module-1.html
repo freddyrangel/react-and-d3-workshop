@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>React and D3 Workshop</title>
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <div class="banner-image-container">
+    <img class="banner-image" src="images/react-d3.png" alt="React and D3 Banner Title">
+  </div>
+
+  <div class="outer-container">
+
+    <h1>React and D3</h1>
+
+    <h2 class="module-title">Module 1: Why React and D3?</h2>
+
+    <article class="module">
+      <p>
+      D3 is great out of the box. There's nothing inherently wrong it it at
+      all. It's flexible and gets the job done. You don't necessarily need
+      React nor any other library to create data visualizations.
+      </p>
+
+      <p>
+      So why use React? There are a few really good reasons why React makes
+      your data visualization code even better.
+      </p>
+
+      <h3>Declarative Components</h3>
+
+      <div class="alphabet"></div>
+
+      <p>
+      React views are declarative and easy to understand. For example, here is
+      some of the code for the visualization above:
+      </p>
+
+      <div class="codepen-container">
+        <p data-height="600" data-theme-id="24335" data-slug-hash="vKyZQj" data-default-tab="js" data-editable="true" data-user="freddyrangel" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/vKyZQj/">d3-alphabet</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <p>
+      Just by looking at this you can figure out more or less what it does.
+      The equivalent in pure D3 would be much more imperative and difficult to
+      understand at a glance.
+      </p>
+
+      <h3>Reusable Components</h3>
+
+      <img src="images/reusable-components.png" alt="Reusable Componenets">
+
+      <div class="codepen-container">
+        <p data-height="775" data-editable="true" data-theme-id="24335" data-slug-hash="MebQwQ" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/MebQwQ/">reusable-d3-components</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <h3>Better Performance</h3>
+
+      <p>
+      Typically, updating the DOM will be the performance bottleneck for your
+      application. React, when used in production mode, is orders of magnitude
+      faster at updating the DOM than D3 or any other rendering library.
+      </p>
+
+      <p>
+      Here's a graph showing the amount of time spent by the browser executing
+      JavaScript code. Of course, there are lies, damn lies, and JavaScript
+      benchmark tests. However this does give us an idea of how much faster
+      React is in general.
+      </p>
+
+      <img src="images/javascript-benchmarks.svg" alt="javascript benchmarks">
+
+    </article>
+
+    <article class="navigation">
+
+      <h2>Let's Move on to React Basics</h2>
+
+      <div class="nav-buttons">
+        <a href="/react-and-d3-workshop/module-2.html" class="btn">Next Module</a>
+        <a href="/react-and-d3-workshop" class="btn">Back</a>
+      </div>
+    </article>
+  </div>
+  <script src="bundles/alphabet.js"></script>
+  <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+</body>
+</html>

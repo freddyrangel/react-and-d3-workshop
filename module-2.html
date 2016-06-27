@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>React and D3 Workshop</title>
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <div class="banner-image-container">
+    <img class="banner-image" src="images/react-d3.png" alt="React and D3 Banner Title">
+  </div>
+
+  <div class="outer-container">
+    <h1>React and D3</h1>
+
+    <h2 class="module-title">Module 2: React 101</h2>
+    <article class="module">
+      <h3>What is React?</h3>
+
+      <ul>
+        <li>
+          A declarative UI library.
+        </li>
+
+        <li>
+          Runs on multiple targets: DOM, canvas, native, terminal, etc.
+        </li>
+
+        <li>
+          Uses a virtual DOM unidirectional data-binding system to quickly
+          update the only parts of the DOM that need to change.
+        </li>
+
+        <li>
+          A way to bring functional programming to building user interfaces.
+        </li>
+      </ul>
+
+      <h3>React Basics</h3>
+
+      <ul>
+
+        <li>
+          Declarative components.
+        </li>
+
+        <li>
+          Reusing components.
+        </li>
+
+        <li>
+          Props and Unidirectional Data Flow.
+        </li>
+
+        <li>
+          Managing State.
+        </li>
+
+        <li>
+          Props vs State.
+        </li>
+
+        <li>
+          React is Just JavaScript.
+        </li>
+
+        <li>
+          React is Functional.
+        </li>
+
+      </ul>
+
+      <h3>Declarative Components</h3>
+
+      <p>
+      Here's a simple React component.
+      </p>
+
+      <div class="codepen-container">
+        <p data-height="265" data-theme-id="dark" data-slug-hash="RRKLJr" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/RRKLJr/">Hello World Example</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <h3>Practical Exercise 1</h3>
+
+      <div class="codepen-container">
+        <p data-editable="true" data-height="536" data-theme-id="dark" data-slug-hash="LZxrjv" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/LZxrjv/">Hello World Example</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <h3>Reusing Components</h3>
+
+      <div class="codepen-container">
+        <p data-editable="true" data-height="400" data-theme-id="dark" data-slug-hash="ZOLRLr" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/ZOLRLr/">Reusing Hello World</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <h3>Practical Exercise 2</h3>
+
+      <div class="codepen-container">
+        <p data-editable="true" data-height="400" data-theme-id="dark" data-slug-hash="ZOLjqz" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/ZOLjqz/">Practical Exercise 2</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <h3>Props and Unidirectional Data Flow</h3>
+
+      <p>
+      In React, data flows in only one direction: from parent to child. This
+      makes it easy to track where bugs are coming from since we have a
+      guarentee that data can only come from one place: a component's parent.
+      </p>
+      <div class="codepen-container">
+        <p data-height="600" data-theme-id="dark" data-slug-hash="rLjrbO" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/rLjrbO/">Props and Unidirectional Data Flow</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <h3>Practical Exercise 3</h3>
+
+      <div class="codepen-container">
+        <p data-height="600" data-theme-id="dark" data-slug-hash="jrypoo" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/jrypoo/">Practical Exercise 3</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <h3>Managing State</h3>
+
+      <p>
+      In order to do anything useful, we need to track more than just static
+      data. We need some way to track state changes and update the UI
+      accordingly. Again, React shines in this respect. By making your state
+      explicit, React makes it obvious what your state is at any given time.
+      By far the biggest challenge in software is determining the present
+      state of our programs. React helps alleviate this problem in the UI.
+      </p>
+
+      <div class="codepen-container">
+        <p data-height="900" data-theme-id="dark" data-slug-hash="JKEaoN" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/JKEaoN/">Managing State</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <h3>Practical Exercise 4</h3>
+
+      <div class="codepen-container">
+        <p data-height="600" data-theme-id="dark" data-slug-hash="oLBVVW" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/oLBVVW/">Practical Exercise 4</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <h3>Practical Exercise 5</h3>
+
+      <div class="codepen-container">
+        <p data-height="600" data-theme-id="dark" data-slug-hash="oLBOqd" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/oLBOqd/">Practical Exercise 5</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <h3>Props vs State</h3>
+
+      <p>
+      So far you've learned about props and state. How do you know when to use
+      state or props? State is for data that you know will change due to some
+      external input. Props can be thought of as static "properties".
+      </p>
+
+      <p>
+      To seperate concerns, aim to create small stateless child components
+      that act like functions in that they take a set of arguments (props) and
+      always the same value based on that input. Keep shared mutable state in
+      a parent component that also contains the business logic.
+      </p>
+
+      <div class="codepen-container">
+        <p data-height="1000" data-theme-id="dark" data-slug-hash="oLBOaM" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/oLBOaM/">State vs Props</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <h3>Practical Exercise 6</h3>
+
+      <div class="codepen-container">
+        <p data-height="1000" data-theme-id="dark" data-slug-hash="xOgeMW" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/xOgeMW/">Practical Exercise 6</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <h3>React is Just JavaScript</h3>
+
+      <p>
+      The nice thing about React is that there's no DSL you need to learn.
+      There's no such thing as a "React Developer" -- There are JavaScript
+      Developers that use React. With React, you can refactor code the same
+      way you refactor any other piece of JavaScript code.
+      </p>
+
+      <p>
+      Let's take a look at the prior example. Notice that "Dogs" and "Cats"
+      components are similar:
+      </p>
+
+      <div class="codepen-container">
+        <p data-height="1000" data-theme-id="dark" data-slug-hash="oLBOaM" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/oLBOaM/">State vs Props</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <p>
+      This example is not very DRY. We can fix that with some simple
+      refactoring.
+      </p>
+
+      <div class="codepen-container">
+        <p data-height="800" data-theme-id="dark" data-slug-hash="OXWGYL" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/OXWGYL/">React is Just JavaScript</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <h3>React is Functional</h3>
+
+      <p>
+      As mentioned earlier, you should aim to create small stateless
+      components that act like functions. In fact, React embraces this idea
+      even further by allowing you to use functions instead of classes to
+      create components. They are simply called "stateless functional
+      components".
+      </p>
+
+      <div class="codepen-container">
+        <p data-height="265" data-theme-id="dark" data-slug-hash="yJgrdM" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/yJgrdM/">React is Functional</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <p>
+      As a general rule, stick to stateless functional components as much as
+      possible. Avoid using state as much as possible. If you must use state,
+      then you reach for a React class component.
+      </p>
+
+      <h3>Practical Exercise 7:</h3>
+      <div class="codepen-container">
+        <p data-height="1000" data-theme-id="dark" data-slug-hash="XKpQvz" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/XKpQvz/">Practical Exercise 7</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+    </article>
+
+    <article class="navigation">
+
+      <h2>Let's Move on to D3 Basics</h2>
+
+      <div class="nav-buttons">
+        <a href="/react-and-d3-workshop/module-3.html" class="btn">Next Module</a>
+        <a href="/react-and-d3-workshop/module-1.html" class="btn">Back</a>
+      </div>
+    </article>
+  </div>
+  <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+</body>
+</html>

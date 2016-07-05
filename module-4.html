@@ -17,9 +17,62 @@
 
     <h2 class="module-title">Module 4: D3 + React Integration</h2>
     <article class="module">
+      <h3>Two Ways to Integrate</h3>
+
+      <ul>
+        <li>D3 does props</li>
+        <li>Blackbox components</li>
+      </ul>
+
+      <h3>D3 Does Props</h3>
+
+      <ul>
+        <li>React handles the DOM: in the render() method.</li>
+        <li>D3 functions calculate prop values: in updateD3() method.</li>
+        <li>Make sure D3 inner state stays in sync: call updateD3() when props
+          change</li>
+      </ul>
+
+      <div class="codepen-container">
+        <p data-height="800" data-theme-id="24335" data-slug-hash="oLwoQN" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/oLwoQN/">D3 Does Props</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <img src="images/scatterplot.png" alt="Scatterplot">
+
+      <h3>Blackbox Components</h3>
+
+      <ul>
+        <li>Wrap D3 code in React components: call renderX after React render.</li>
+        <li>Perfect for axes.</li>
+        <li>Quickly integrate D3 examples from the internet - everything in same function.</li>
+        <li>D3 handles DOM - d3.select React node.</li>
+      </ul>
+
+      <div class="codepen-container">
+        <p data-height="550" data-theme-id="24335" data-slug-hash="rLwpJE" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/rLwpJE/">D3 Blackbox Components</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <img src="images/blackbox.png" alt="Blackbox">
+
+      <h3>Hybrid Approach</h3>
+
+      <ul>
+        <li>Define D3 objects in constructor.</li>
+        <li>Update them in updateD3.</li>
+        <li>Render with blackbox approach.</li>
+      </ul>
+    </article>
+
+    <article class="navigation">
+
+      <h2>Proceed to Practical Exercise</h2>
+
+      <div class="nav-buttons">
+        <a href="/react-and-d3-workshop/module-5.html" class="btn">Next Module</a>
+        <a href="/react-and-d3-workshop/module-3.html" class="btn">Back</a>
+      </div>
     </article>
   </div>
-
   <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
 </body>
 </html>

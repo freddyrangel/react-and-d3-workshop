@@ -83,7 +83,12 @@ li {
 }
 
 .nav-buttons {
+  margin-top: 50px;
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
+}
+
+.navigation {
+  padding: 0 30px 30px;
 }

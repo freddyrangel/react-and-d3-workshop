@@ -29,8 +29,8 @@
         </li>
 
         <li>
-          Uses a virtual DOM unidirectional data-binding system to quickly
-          update the only parts of the DOM that need to change.
+          Uses a virtual DOM unidirectional data-binding system to only update
+          the parts of the DOM that need to change.
         </li>
 
         <li>
@@ -149,10 +149,10 @@
       </p>
 
       <p>
-      To seperate concerns, aim to create small stateless child components
-      that act like functions in that they take a set of arguments (props) and
-      always the same value based on that input. Keep shared mutable state in
-      a parent component that also contains the business logic.
+      To seperate concerns, aim to create small stateless child components that
+      act like functions in that they take a set of arguments (props) and always
+      returns the same value based on that input. Keep shared mutable state in a
+      parent component that also contains the business logic.
       </p>
 
       <div class="codepen-container">
@@ -188,8 +188,7 @@
       </div>
 
       <p>
-      This example is not very DRY. We can fix that with some simple
-      refactoring.
+      This example is not very DRY. We can fix that with some refactoring.
       </p>
 
       <div class="codepen-container">
@@ -216,9 +215,8 @@
 
       <p>
       As a general rule, stick to stateless functional components and avoid
-      using state as much as possible. Avoid using state as much as possible. If
-      and only if you need to use state, then you reach for a React class
-      component.
+      using state as much as possible. If and only if you need to use state,
+      then you reach for a React class component.
       </p>
 
       <h3>Practical Exercise 7:</h3>

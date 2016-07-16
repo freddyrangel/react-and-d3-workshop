@@ -19,21 +19,61 @@
     <article class="module">
 
       <p>
-      The final project will be the Alphabet example that you've seen in the
-      other modules. We initially tried to break this up to smaller exercises,
-      but due to the amount of code and time allowed we can't really do that.
-      Instead, you can learn a lot by trying to copy an example and debugging it
-      for typos and such.
+      The final project is the Alphabet example you saw earlier, but with a twist. We'll make it interactive. Animation happens as you type.
       </p>
+
+      <img src="images/typing.gif" alt="Typing animation">
+
+      <p>
+          It looks simple, and the majority <em>is</em> simple. But there's a tricky final step that's more computer science than React or D3. I'll show you :)
+      </p>
+
+      <p>
+          We're going to build this example in 3 steps:
+          <ol>
+              <li>Render the input box value as SVG text</li>
+              <li>Add enter/exit/update animation</li>
+              <li>Assign stable identifiers to letters</li>
+          </ol>
+          That last part is important, it lets React do enter/exit/update animations correctly. The meat of it also has the least to do with both React and D3.
+      </p>
+
+      <h3>Step 1: plain SVG text</h3>
+
+      <p>Use this pen to build an App that takes some input and renders it as SVG text. I suggest building a Letter component for each letter. That will make the other steps easier.</p>
 
       <div class="codepen-container">
         <p data-height="800" data-theme-id="dark" data-slug-hash="qNjxwr" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/qNjxwr/">Alphabet: Final Project</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
       </div>
 
-      <h3>Answer:</h3>
+      <h3>Answer step 1:</h3>
 
       <div class="codepen-container">
-        <p data-height="2500" data-theme-id="dark" data-slug-hash="EyXEYL" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/EyXEYL/">Alphabet: Final Project Answer</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+        <p data-height="1300" data-theme-id="dark" data-slug-hash="EyXEYL" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/EyXEYL/">Alphabet: Final Project Answer - step 1</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <h3>Step 2: Animated SVG text</h3>
+
+      <p>Use d3.transition to add enter/update/exit transitions to the Letter component. I suggest using state for "current position/opacity" and props for "target position/opacity".</p>
+
+      <p data-height="800" data-theme-id="dark" data-slug-hash="qNjxwr" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/qNjxwr/">Alphabet: Final Project</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+      <h3>Answer step 2:</h3>
+
+      <div class="codepen-container">
+        <p data-height="2200" data-theme-id="dark" data-slug-hash="ZOvXYm" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/EyXEYL/">Alphabet: Final Project Answer - step 2</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      </div>
+
+      <h3>Step 3: Stable letter identifiers</h3>
+
+      <p>Make sure letters' <code>key</code> prop is stable. Assign it the first time a new letter appears, then keep it throughout. Hint: you have to diff strings and keep an autoincrementing index.</p>
+
+      <p data-height="800" data-theme-id="dark" data-slug-hash="qNjxwr" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/qNjxwr/">Alphabet: Final Project</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+      <h3>Answer step 3:</h3>
+
+      <div class="codepen-container">
+        <p data-height="3000" data-theme-id="dark" data-slug-hash="Wxdkyg" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/EyXEYL/">Alphabet: Final Project Answer - step 2</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
       </div>
     </article>
 

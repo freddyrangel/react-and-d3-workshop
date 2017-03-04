@@ -5,6 +5,8 @@
   <title>React and D3 Workshop</title>
   <link rel="stylesheet" href="reset.css">
   <link rel="stylesheet" href="index.css">
+
+  <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 </head>
 <body>
 
@@ -17,67 +19,292 @@
 
     <h2 class="module-title">Module 4: D3 + React Integration</h2>
     <article class="module">
-      <h3>Two Ways to Integrate</h3>
+<h1>The basic approach</h1>
 
-      <ul>
-        <li>D3 does props</li>
-        <li>Blackbox components</li>
-      </ul>
+<p>Our visualizations are going to use SVG - an XML-based image format that lets us describe images in terms of mathematical shapes. For example, the source code of an 800x600 SVG image with a rectangle looks like this:</p>
 
-      <h3>D3 Does Props</h3>
+<h3>SVG rectangle</h3>
 
-      <ul>
-        <li>React handles the DOM: in the render() method.</li>
-        <li>D3 functions calculate prop values: in updateD3() method.</li>
-        <li>Make sure D3 inner state stays in sync: call updateD3() when props
-          change</li>
-      </ul>
+<p data-height="265" data-theme-id="0" data-slug-hash="MpeegG" data-default-tab="html,result" data-user="swizec" data-embed-version="2" data-pen-title="SVG rectangle" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/swizec/pen/MpeegG/">SVG rectangle</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 
-      <div class="codepen-container">
-        <p data-height="900" data-theme-id="0" data-slug-hash="oLwoQN" data-default-tab="js,result" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/oLwoQN/">D3 Does Props</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-      </div>
+<p>These four lines create an SVG image with a black rectangle at coordinates <code>(50, 20)</code> that is 100x200 pixels large. Black fill with no borders is default for all SVG shapes.</p>
 
-      <h3>Blackbox Components</h3>
+<p>SVG is perfect for data visualization on the web because it works in all browsers, renders without blurring or artifacts on all screens, and supports animation and user interaction. You can see examples of interaction and animation later in this book.</p>
 
-      <ul>
-        <li>Wrap D3 code in React components: call render after React render.</li>
-        <li>Perfect for axes.</li>
-        <li>Quickly integrate D3 examples from the internet - everything in same function.</li>
-        <li>D3 handles DOM - d3.select React node.</li>
-      </ul>
+<p>But SVG can get slow when you have many thousands of elements on screen. We're going to solve that problem by rendering bitmap images with canvas. More on that later.</p>
 
-      <div class="codepen-container">
-          <p data-height="550" data-theme-id="0" data-slug-hash="mEKQby" data-default-tab="js,result" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/mEKQby/">D3 Blackbox Components</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
-      </div>
+<hr />
 
-      <h3>Hybrid Approach</h3>
+<p>Another nice feature of SVG is that it's just a dialect of XML - nested elements describe structure, attributes describe the details. The same principles that HTML uses.</p>
 
-      <ul>
-        <li>Define D3 objects in constructor.</li>
-        <li>Update them in updateD3.</li>
-        <li>Render with blackbox approach.</li>
-      </ul>
-    </article>
+<p>That makes React's rendering engine particularly suited for SVG. Our 100x200 rectangle from before looks like this as a React component:</p>
 
-    <article class="module">
-        <h3>Simple animations</h3>
+<h3>React rectangle</h3>
 
-        <p>Change props through time -> animation. React is fast enough.</p>
+<p data-height="265" data-theme-id="0" data-slug-hash="mWEEdV" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="SVG rectangle React" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/swizec/pen/mWEEdV/">SVG rectangle React</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 
-        <p data-height="800" data-theme-id="0" data-slug-hash="NAzEdg" data-default-tab="js,result" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/NAzEdg/">Simple animation</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<p>You're right. This looks like tons of work for a static rectangle. But look closely. Even if you know nothing about React and JSX, you can look at that code and see that it's a <code>Picture</code> of a <code>Rectangle</code>.</p>
 
-        <h3>Transition-based animation</h3>
+<p>Compare that to a pure D3 approach:</p>
 
-        <p>Tiny bit trickier :)</p>
+<h3>Pure D3 rectangle</h3>
 
-        <ul>
-            <li>Render from state, not props</li>
-            <li>Use d3.transition to change props directly</li>
-            <li>After transition, update React state</li>
-        </ul>
+<p data-height="265" data-theme-id="0" data-slug-hash="WpxxbE" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="SVG rectangle D3" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/swizec/pen/WpxxbE/">SVG rectangle D3</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 
-        <p data-height="800" data-theme-id="0" data-slug-hash="mEKQBE" data-default-tab="js,result" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/mEKQBE/">Transition animation</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<p>It's elegant, it's declarative, it looks like function call soup. It doesn't scream <em>&quot;Rectangle in an SVG&quot;</em> to me as much as the React example does. </p>
+
+<p>You have to take your time and read the code carefully: first, we <code>select</code> the <code>svg</code> element, then we add attributes for <code>width</code> and <code>height</code>. After that, we <code>append</code> a <code>rect</code> element and set its attributes for <code>width</code>, <code>height</code>, <code>x</code>, and <code>y</code>.</p>
+
+<p>Those 8 lines of code create HTML that looks like this:</p>
+
+<p><code><pre>
+&lt;svg width=&quot;800&quot; height=&quot;600&quot;&gt;
+    &lt;rect width=&quot;100&quot; height=&quot;200&quot; x=&quot;50&quot; y=&quot;20&quot; /&gt;
+&lt;/svig&gt;
+</code></pre></p>
+
+<p>Would've been easier to just write the HTML, right? Yes, for static images you're better off using Photoshop or something then exporting to SVG.</p>
+
+<p>Either way, dealing with the DOM is not D3's strong suit. There's a lot of typing, code that's hard to read, it's slow when you have thousands of elements, and it's often hard to keep track of which elements you're changing. D3's enter-update-exit cycle is great in theory, but I personally never found it easy to use.</p>
+
+<p>If you don't know what I just said, don't worry. We'll cover the enter-update-exit cycle in the animations example. Don't worry about D3 either. <strong>I know it's hard</strong>. I've written two books about it, and I still spend as much time reading the docs as writing the code. There's much to learn, and I'll explain everything as we go along.</p>
+
+<p>D3's strong suit is its ability to do everything other than the DOM. There are many statistical functions, great support for data manipulation, and a bunch of built-in data visualizations. <strong>D3 can calculate anything for us. All we have to do is draw it out.</strong></p>
+
+<p>Which is why we're going to follow this approach:</p>
+
+<ul>
+<li>React owns the DOM</li>
+<li>D3 calculates properties</li>
+</ul>
+
+<p>This way, we can leverage React for SVG structure and rendering optimizations and D3 for all its mathematical and visualization functions.</p>
+
+<p>Now let's look at two different ways to put them together: blackbox and full-feature.</p>
+
+<h1>Blackbox Components</h1>
+
+<p>Blackbox components are the simplest way to integrate D3 and React. You can think of them as wrappers around D3 visualizations.</p>
+
+<p>You can take any D3 example from the internets or your brain, wrap it in a thin React component, and it Just Works™. Yes, we go against what I just said and let D3 control a small part of the DOM tree.</p>
+
+<p>We throw away most of React's power, but we gain a quick way to get things working.</p>
+
+<p>I call the approach <em>&quot;blackbox&quot;</em> because React's engine can't see inside your component, can't help with rendering, and has no idea what's going on. From this point onward in the DOM tree, you are on your own. It sounds scary, but it's okay if you're careful.</p>
+
+<p>Here's how it works:
+- React renders an anchor element
+- D3 hijacks it and puts stuff in</p>
+
+<p>You have to manually re-render on props and state changes. You're also throwing away and recreating your component's entire DOM on each re-render.</p>
+
+<p>Manual re-rendering is not as annoying as it sounds, but the inefficiency can get pretty bad with complex visualizations. Use this technique sparingly.</p>
+
+<h2>A quick blackbox example - a D3 axis</h2>
+
+<p>Let's build an axis component. Axes are the perfect use-case for blackbox components. D3 comes with an axis generator bundled inside, and they're difficult to build from scratch.</p>
+
+<p>They don't <em>look</em> difficult, but there are many tiny details you have to get <em>just right</em>.</p>
+
+<p>D3's axis generator takes a scale and some configuration to render an axis for us. The code looks like this:</p>
+
+<h3>Pure D3 version</h3>
+
+<p data-height="265" data-theme-id="0" data-slug-hash="YGoYBM" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="pure-d3-axis" data-editable="true" class="codepen">See the Pen <a href="https://codepen.io/swizec/pen/YGoYBM/">pure-d3-axis</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<p>If this code doesn't make any sense, don't worry. There's a bunch of D3 to learn, and I'll help you out. If it's obvious, you're a pro! This book will be much quicker to read.</p>
+
+<p>We start with a linear scale that has a domain <code>[0, 10]</code> and a range <code>[0, 200]</code>. You can think of scales as mathematical functions that map a domain to a range. In this case, calling <code>scale(0)</code> returns <code>0</code>, <code>scale(5)</code> returns <code>100</code>, <code>scale(10)</code> returns <code>200</code>. Just like middle school mathematics.</p>
+
+<p>We create an axis generator with <code>axisBottom</code>, which takes a <code>scale</code> and is going to generate a <code>bottom</code> oriented axis – numbers below the line. You can also tweak settings for the number of ticks, their sizing, and their spacing.</p>
+
+<p>Equipped with an <code>axis</code> generator, we <code>select</code> the <code>svg</code> element, append a grouping element, use a <code>transform</code> attribute to move it <code>10</code>px to the right and <code>30</code>px down, and invoke the generator with <code>.call()</code>.</p>
+
+<h2>A quick blackbox example - a React+D3 axis</h2>
+
+<p>Now let's say we want to use that same axis code but as a React component. The simplest way is to use a blackbox component approach like this:</p>
+
+<h3>Blackbox version</h3>
+
+<p data-height="447" data-theme-id="0" data-slug-hash="qazxPz" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="react-d3-axis" data-editable="true" class="codepen">See the Pen <a href="https://codepen.io/swizec/pen/qazxPz/">react-d3-axis</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<p>Oh man! So much code! Is this really worth it? Yes, for the other benefits of using React in your dataviz. You'll see :)</p>
+
+<p>We created an <code>Axis</code> component that extends React base <code>Component</code> class. We can't use functional stateless components for this because we need lifecycle hooks. More on those later.</p>
+
+<p>Our component has a <code>render</code> method, which returns a grouping element (<code>g</code>) moved 10px to the right and 30px down using the <code>transform</code> attribute. Same as before.</p>
+
+<p>We added a <code>ref</code> attribute, which lets us reference elements in our component via <code>this.refs</code>. This makes D3 integration cleaner, and it probably works with React-native. I haven't tried yet.</p>
+
+<p>The body of <code>renderAxis</code> should look familiar. It's where we put code from the pure D3 example. Scale, axis, select, call. There's no need to append a grouping element; we're already there with <code>this.refs.g</code>.</p>
+
+<p>For the manual re-rendering part, we call <code>renderAxis</code> in <code>componentDidUpdate</code> and <code>componentDidMount</code>. This ensures that our axis re-renders every time React's engine decides to render our component. On state and prop changes usually.</p>
+
+<p>That wasn't so bad, was it?</p>
+
+<p>To make our axis more useful, we could get the scale and axis orientation from props. We'll do that for scales in our bigger project.</p>
+
+<h1>A D3 blackbox higher order component – HOC</h1>
+
+<p>After the blackbox axis example above, you'd be right to think something like <em>&quot;Dude, that looks like it's gonna get hella repetitive. Do I really have to do all that every time?&quot;</em></p>
+
+<p>Yes, you do. But! We can make it easier with a higher order component - a HOC.</p>
+
+<p>Higher order components are one of the best ways to improve your React code. When you see more than a few components sharing similar code, it's time for a HOC. In our case, that shared code would be:</p>
+
+<ul>
+<li>rendering an anchor element</li>
+<li>calling D3's render on updates</li>
+</ul>
+
+<p>With a HOC, we can abstract that away into something called a <a href="https://en.wikipedia.org/wiki/Factory_method_pattern">class factory</a>. It's an old concept coming back in vogue now that JavaScript has classes.</p>
+
+<p>You can think of it as a function that takes some params and creates a class – a React component. Another way to think about HOCs is that they're React components wrapping other React components and a function that makes it easy.</p>
+
+<p>Let's build a HOC for D3 blackbox integration. We'll use it in the main example project.</p>
+
+<p>A <code>D3blackbox</code> HOC looks like this:</p>
+
+<h3>D3blackbox HOC</h3>
+<p data-height="642" data-theme-id="0" data-slug-hash="woNjVw" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="react-d3-HOC-axis" data-editable="true" class="codepen">See the Pen <a href="https://codepen.io/swizec/pen/woNjVw/">react-d3-HOC-axis</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<p>You'll recognize most of that code from earlier. We have a <code>componentDidMount</code> and<code>componentDidUpdate</code> lifecycle hooks that call <code>D3render</code> on component updates. This used to be called <code>renderAxis</code>. <code>render</code> renders a grouping element as an anchor into which D3 can put its stuff.</p>
+
+<p>Because <code>D3render</code> is no longer a part of the component, we have to use <code>.call</code> to give it the scope we want: this class, or rather <code>this</code> instance of the <code>Backbone</code> class.</p>
+
+<p>We've also made some changes to make <code>render</code> more flexible. Instead of hardcoding the <code>translate()</code> transformation, we take <code>x</code> and <code>y</code> props. <code>{ x, y } = this.props</code> takes <code>x</code> and <code>y</code> out of <code>this.props</code> using object decomposition, and we used ES6 string templates for the <code>transform</code> attribute.</p>
+
+<p>Consult the <a href="https://es6cheatsheet.com/">ES6 cheatsheet</a> for details on that.</p>
+
+<p>Using our new <code>D3blackbox</code> HOC to make an axis looks like this:</p>
+
+<p><code><pre>
+const Axis = D3blackbox(function () {
+  const scale = d3.scaleLinear()
+                  .domain([0, 10])
+                  .range([0, 200]);
+  const axis = d3.axisBottom(scale);
+
+  d3.select(this.refs.anchor)
+    .call(axis);
+
+});
+</pre></code></p>
+
+<p>It’s the aame code as we had in <code>renderAxis</code> before. The only difference is that the function is wrapped in a <code>D3blackbox</code> call. This turns it into a React component.</p>
+
+<p>I'm not 100% whether wrapping a function in a React component counts as a real HOC, but let's roll with it. More proper HOCs are React components wrapped in components.</p>
+
+<p>You can play with this example on Codepen <a href="https://codepen.io/swizec/pen/woNjVw">here</a>.</p>
+
+<h1>Full-feature Integration</h1>
+
+<p>As useful as blackbox components are, we need something better if we want to leverage React's rendering engine. We're going to look at full-feature integration where React does the rendering and D3 calculates the props.</p>
+
+<p>To do that, we're going to follow a 3-part pattern:
+- set up D3 objects as class properties
+- update D3 objects when component updates
+- output SVG in <code>render()</code></p>
+
+<p>It's easiest to show you with an example.</p>
+
+<p>Let's build a rectangle that changes color based on prop values. We'll render a few of them to make a color scale.</p>
+
+<p>Yes, it looks like a trivial example, but color-as-information is an important concept in data visualization. We're going to use it later to build a choropleth map of household income in the US.</p>
+
+<p>I suggest following along in Codepen for now. <a href="https://codepen.io/swizec/pen/oYNvpQ">Here's one I set up for you</a>. It contains the final solution, so you can follow along and nod your head. I'll explain each part.</p>
+
+<h2>A color scale</h2>
+
+<p data-height="575" data-theme-id="0" data-slug-hash="oYNvpQ" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="d3 color scale" data-editable="true" class="codepen">See the Pen <a href="https://codepen.io/swizec/pen/oYNvpQ/">d3 color scale</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<p>We start with a <code>Swatch</code> component that draws a rectangle and fills it with a color.</p>
+
+<h3>Swatch component</h3>
+<p><code><pre>
+const Swatch = ({ color, width, x }) =&gt; (
+    &lt;rect width={width}
+      height=&quot;20&quot;
+      x={x}
+      y=&quot;0&quot;
+      style={{fill: color}} /&gt;
+);
+</pre></code></p>
+
+<p>Looks like our earlier components, doesn't it? It's exactly the same: a functional stateless component that draws a <code>rect</code> element with some attributes - dimensions, position, and <code>fill</code> style.</p>
+
+<p>Note that <code>style</code> is a dictionary, so we specify it with double curly braces: outer braces for a dynamic value, inner braces for a dictionary.</p>
+
+<p>Then we need a <code>Colors</code> component. It follows the full-featured integration structure: D3 objects as properties, an <code>updateD3</code> function, plus some wiring for updates and rendering.</p>
+
+<h3>Colors component, pt1</h3>
+<p><code><pre>
+class Colors extends Component {
+    colors = d3.schemeCategory20;
+    width = d3.scaleBand()
+          .domain(d3.range(20));
+</pre></code></p>
+
+<p>We start by inheriting from <code>Component</code> and defining defaults for D3 objects. <code>this.colors</code> is one of <a href="https://github.com/d3/d3-scale/blob/master/README.md#schemeCategory10">D3's predefined color scales</a>. <code>schemeCategory20</code> is a scale of 20 colors designed for categorization. It seemed like a good example, and you're welcome to try others.</p>
+
+<p><code>this.width</code> is a D3 scale designed for producing bands, <code>d3.scaleBand</code>. As mentioned earlier, scales map domains to ranges. We know our domain is 20 colors, so we can statically set the domain as <code>[1, 2, 3, ..., 20]</code> with <code>d3.range(20)</code>.</p>
+
+<p><code>d3.range</code> generates a counting array, by the way. We'll use that a lot.</p>
+
+<p>We'll use <code>this.width</code> to calculate widths and positions of our color swatches. Here's a picture from D3 docs to help you visualize what <code>scaleBand</code> does:</p>
+
+<figure>
+<img src="https://raw.githubusercontent.com/d3/d3-scale/master/img/band.png" alt="Band Scale from D3 docs" />
+<figcaption>Band Scale from D3 docs</figcaption>
+</figure>
+
+<p>Unlike the domain, our range is dynamic so that we can use props to define the width of our color scale. This makes the component more reusable.</p>
+
+<h3>Colors component pt2</h3>
+<p><code><pre>
+componentWillMount() {
+ this.updateD3(this.props);
+}
+
+componentWillUpdate(newProps) {
+ this.updateD3(newProps);
+}
+
+updateD3(props) {
+ this.width.range([0, props.width]);
+}
+</pre></code></p>
+
+<p><code>componentWillMount</code> and <code>componentWillUpdate</code> are component lifecycle hooks. Can you guess when they run?</p>
+
+<p><code>componentWillMount</code> runs just before React's engine inserts our component into the DOM, and <code>componentWillUpdate</code> runs just before React updates it. That happens on any prop change or <code>setState</code> call.</p>
+
+<p>Both of them call our <code>updateD3</code> method with the new value of props. We use it to update <code>this.width</code> scale's range. Doing so keeps the internal state of D3 objects in sync with React's reality. Without it, our component might render stale data.</p>
+
+<p>Finally, we render a bunch of color swatches.</p>
+
+<h3>Colors component pt3</h3>
+<p><code><pre>
+render() {
+    return (
+    &lt;g&gt;
+        {d3.range(20).map(i =&gt; (
+            &lt;Swatch color={this.colors[i]}
+        width={this.width.step()}
+        x={this.width(i)} /&gt;
+         ))}
+    &lt;/g&gt;
+    )
+}
+</pre></code></p>
+
+<p>We create a grouping element to fulfill React's one child per component requirement, then render 20 swatches in a loop. Each gets a <code>color</code> from <code>this.colors</code> and a <code>width</code> and <code>x</code> from <code>this.width</code>.</p>
+
+<p>After inserting into the DOM with <code>ReactDOM</code>, we get a series of 20 colorful rectangles.</p>
+
+<p>Try changing the <code>width=&quot;400&quot;</code> property of <code>&lt;Colors /&gt;</code>. You'll see D3's <code>scaleBand</code> and our update wiring ensure the color strip renders correctly. For more fun, try changing the <code>Colors</code> component so it takes the color scale as a prop, then rendering multiple instances of <code>&lt;Colors /&gt;</code> side-by-side.</p>
+
+<p>Here's the playground again: <a href="https://codepen.io/swizec/pen/oYNvpQ">CodePen</a></p>
     </article>
 
     <article class="navigation">

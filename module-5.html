@@ -5,6 +5,7 @@
   <title>React and D3 Workshop</title>
   <link rel="stylesheet" href="reset.css">
   <link rel="stylesheet" href="index.css">
+  <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
 </head>
 <body>
 
@@ -15,62 +16,414 @@
   <div class="outer-container">
     <h1>React and D3</h1>
 
-    <h2 class="module-title">Module 5: Draw the rest of the owl</h2>
+    <h2 class="module-title">Module 5: React + D3 Animations</h2>
     <article class="module">
 
-      <p>
-          Congratz! You know everything. :)
-      </p>
-      <p>
-          You know two different approaches to integrating React with D3, you've seen two ways of doing animation, and you've tried it all out on code samples. Now it's time to try doing it all from scratch.
-      </p>
-      <p>
-          You are to build a scatterplot that shows the effect of major earthquakes of varying magnitudes. You'll do it in 3 steps:
+<p>Welcome to the animation section. This is where the real fun begins. Demos that look cool and impress your friends.</p>
 
-          <ol>
-              <li>Draw a scatterplot with random data</li>
-              <li>Add axes</li>
-              <li>Load real data from <a href="http://swizec.com/reactd3js/datasets/earth.dat" target="_blank">http://swizec.com/reactd3js/datasets/earth.dat</a>
-          </ol>
-      </p>
+<figure>
+<img src="http://i1.kym-cdn.com/photos/images/facebook/000/085/444/1282786204310.jpg" alt="" />
+</figure>
 
-      <img src="images/earthquakes.png" alt="Typing animation">
+<p>You already know how React and D3 work together, so these demos are going to go faster. You know that we're using React for rendering SVG, and D3 for calculating props. You know how to make your dataviz interactive, and how to handle oodles of data.</p>
+
+<p>Now you're going to learn how to make it dance. To build smooth transitions between states, build complex animations, and how to interact with the user in real-time. 60 frames per second baby!</p>
+
+<p>Our general approach to animation goes like this: Render from state. Change state 60 times per second. Animation!</p>
+
+<p>We're going to use two different ways of changing state so often. The first follows a game loop principle, which gives you more control, but is more tedious. The second is using D3 transitions, which is quicker to build, but gives you less control.</p>
+
+<p>We're going to start with an example or two in CodePen, then build something more involved. But don't worry, no more big huge projects like the <a href="#salary-visualization">tech salary visualization</a></p>
+
+<h2>Using a game loop for rich animation</h2>
+
+<p>I love game loops. It even sounds fun &quot;game loop&quot;. Maybe it's just that whenever I build a game loop, the thing I'm building is fun to play with. 🤔</p>
+
+<p>A game loop is an infinite loop where each iteration renders the next frame of your game or animation. You do your best to complete each iteration in 16 milliseconds and your user gets smooth animation.</p>
+
+<p>As you can imagine, our challenge is to cram all physics and rendering into those 16 milliseconds. The more elements you're rendering, the harder it gets.</p>
+
+<h2>A bouncing ball</h2>
+
+<p>Let's get our feet wet with my favorite childhood example: a bouncing ball. </p>
+
+<p>I must have built dozens of them back in my <a href="https://en.wikipedia.org/wiki/Turbo_Pascal">Turbo Pascal</a> days using <a href="https://en.wikipedia.org/wiki/Borland_Graphics_Interface">BGI</a>. Yes, those Turbo Pascal and BGI are from the 80's. No, I'm not that old, I just started young and with old equipment. Coding for DOS is easier when you're a kid than coding for Windows 95.</p>
+
+<p>I suggest you follow along on CodePen. Here's one I prepared for you earlier:</p>
+
+<p data-height="703" data-theme-id="0" data-slug-hash="WRzqvK" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="React D3 manual animation - bouncing ball, unsolved" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/swizec/pen/WRzqvK/">React D3 manual animation - bouncing ball, unsolved</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 
 
-      <h3>Step 1: a random scatterplot</h3>
+<h3>Step 1: stub it out</h3>
 
-      <div class="codepen-container">
-        <p data-height="800" data-theme-id="dark" data-slug-hash="qNjxwr" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/qNjxwr/">Alphabet: Final Project</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-      </div>
+<p>We start with a skeleton: An empty <code>Ball</code> component, and an <code>App</code> component stubbed out to run the game loop.</p>
 
-      <h3>Answer step 1:</h3>
+<pre><code class="javascript">const Ball = ({ x, y }) =&gt; (
 
-      <div class="codepen-container">
-        <p data-height="1300" data-theme-id="dark" data-slug-hash="AXdRWR" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/AXdRWR/">Alphabet: Final Project Answer - step 1</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-      </div>
+);
 
-      <h3>Step 2: Scatterplot with axes</h3>
+const MAX_H = 750;
 
-      <p data-height="800" data-theme-id="dark" data-slug-hash="qNjxwr" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/qNjxwr/">Alphabet: Final Project</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+class App extends Component {
+  constructor() {
+    super();
 
-      <h3>Answer step 2:</h3>
+    this.state = {
+      y: 5,
+      vy: 0
+    }
+  }
 
-      <div class="codepen-container">
-        <p data-height="2200" data-theme-id="dark" data-slug-hash="oLyoJx" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/oLyoJx/">Alphabet: Final Project Answer - step 2</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-      </div>
+  componentDidMount() {
+    // start game loop
+  }
 
-      <h3>Step 3: Use real data</h3>
+  componentWillUnmount() {
+    // stop loop
+  }
 
-      <p data-height="800" data-theme-id="dark" data-slug-hash="qNjxwr" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/qNjxwr/">Alphabet: Final Project</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+  gameLoop() {
+    // move ball
+  }
 
-      <h3>Answer step 3:</h3>
+  render() {
+    // render svg
+  }
+}
+</code></pre>
 
-      <div class="codepen-container">
-        <p data-height="3000" data-theme-id="dark" data-slug-hash="AXdxbW" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/AXdxbW/">Alphabet: Final Project Answer - step 2</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<p>Nothing renders yet. CodePen complains about missing code and unexpected tokens.</p>
+
+<p>The default state sets our ball's <code>y</code> coordinate to <code>5</code> and its vertical speed – <code>vy</code> – to <code>0</code>. Initial speed zero, initial position top. Perfect for a big drop.</p>
+
+<h3>Step 2: The Ball</h3>
+
+<p>We can approximate the <code>Ball</code> component with a circle. No need to get fancy, we're focusing on the animations part.</p>
+
+<pre><code class="javascript">const Ball = ({ x, y }) =&gt; (
+  &lt;circle cx={x} cy={y} r={5} /&gt;
+);
+</code></pre>
+
+<p>Our <code>Ball</code> renders at <code>(x, y)</code> and has a radius of 5 pixels. The CSS paints it black.</p>
+
+<p>It's these coordinates that we're going to play with to make the ball drop and bounce. Each time, React is going to re-render and move our ball to its new coordinates. Because we change them so quickly, it looks like the ball is animated. You'll see.</p>
+
+<h3>Step 3: Rendering</h3>
+
+<p>We need an SVG of appropriate height and a ball inside. All that goes in <code>App.render</code>.</p>
+
+<pre><code class="javascript">class App extends Component {
+    // ...
+  render() {
+    return (
+      &lt;svg width=&quot;100%&quot; height={MAX_H}&gt;
+        &lt;Ball x={50} y={this.state.y} /&gt;
+      &lt;/svg&gt;
+    )
+  }
+}
+</code></pre>
+
+<p>We're using <code>MAX_H</code>, which is set to 750, because a falling ball needs a lot of room to bounce up and down. You've thrown bouncy balls in a small apartment before haven't you? It's terrifying.</p>
+
+<p>A black ball should show up on your screen.</p>
+
+<h3>Step 4: The Game Loop</h3>
+
+<p>To make the ball bounce, we need to start an infinite loop when our component first renders, change the ball's <code>y</code> coordinate on every iteration, and stop the loop when React unmounts our component. Wouldn't want to keep hogging resources would we?</p>
+
+<pre><code class="javascript">componentDidMount() {
+    this.timer = d3.timer(() =&gt; this.gameLoop());
+    this.gameLoop();
+}
+
+componentWillUnmount() {
+    this.timer.stop();
+}
+
+gameLoop() {
+    let { y, vy } = this.state;
+
+    if (y &gt; MAX_H) {
+        vy = -vy*.87;
+    }
+
+    this.setState({
+        y: y+vy,
+        vy: vy+0.3
+    })
+}
+</code></pre>
+
+<p>We start a new <code>d3.timer</code> when our App mounts, then stop it when App unmounts. This way we can be sure there aren't any infinite loops running that we can't see.</p>
+
+<p>You can read details about D3 timers in <a href="https://github.com/d3/d3-timer">d3-timer documentation</a>. The tl;dr version is that they're a lot like JavaScript's native <code>setInterval</code>, but pegged to <code>requestAnimationFrame</code>. That makes them smoother and friendlier to browser's CPU throttling features.</p>
+
+<p>It basically means our game loop executes every time the browser is ready to repaint. More or less every 16 milliseconds.</p>
+
+<p>We simulate bounce physics in the <code>gameLoop</code> function. With each iteration we add vertical speed to vertical position and increase the speed.</p>
+
+<p>Remember high school? <code>v = v0 + g*t</code>. Speed equals speed plus acceleration multiplied by time. Our acceleration is gravity, our time is &quot;1 frame&quot;.</p>
+
+<p>And acceleration is measured in meters per second per second. Basically the increase in speed observed every second. Real gravity is 10m/s<sup>2</sup>, our factor is <code>0.3</code>. Discovered when playing around. That's what looked natural.</p>
+
+<p>For the bounce, we look at the <code>y</code> coordinate and compare with <code>MAX_H</code>. When it's over, we invert the speed vector and multiply with the bounce factor. Again, discovered experimentally when the animation looked natural.</p>
+
+<p>Tweak the factors to see how they affect your animation. Changing the <code>0.3</code> value should make gravity feel stronger or weaker, and changing the <code>0.87</code> value should affect how high the ball bounces.</p>
+
+<p>Notice that we never look at minimum height to make the ball start falling back down. There's no need. Add <code>0.3</code> to a negative value often enough and it turns positive.</p>
+
+<p>Here's a CodePen with the <a href="http://codepen.io/swizec/pen/bgvEvp?editors=0010">final bouncy ball code</a></p>
+
+<h3>Step 5: Correcting for time</h3>
+
+<p>If you run the CodePen a few times, you'll notice two bugs. The first is that sometimes our ball gets trapped at the bottom of the bounce. We won't fix this one, it's tricky.</p>
+
+<p>The second is that when you slow down your computer, the ball starts lagging. That's not how things behave in real life.</p>
+
+<p>We're dealing with dropped frames.</p>
+
+<p>Modern browsers slow down JavaScript in tabs that aren't focused, on computers running off battery power, when batteries get low ... there's many reasons in the pile. I don't know all of them. If we want our animation to look smooth, we have to account for these effects.</p>
+
+<p>We have to calculate how much time each frame took, and adjust our physics.</p>
+
+<pre><code class="javascript">gameLoop() {
+    let { y, vy, lastFrame } = this.state;
+
+    if (y &gt; MAX_H) {
+        vy = -vy*.87;
+    }
+
+    let frames = 1;
+
+    if (lastFrame) {
+        frames = (d3.now()-lastFrame)/(1000/60);
+    }
+
+    this.setState({
+        y: y+vy*frames,
+        vy: vy+0.3*frames,
+        lastFrame: d3.now()
+    })
+}
+</code></pre>
+
+<p>We add <code>lastFrame</code> to game state and set it with <code>d3.now()</code>. This gives us a high resolution timestamp that's pegged to <code>requestAnimationFrame</code>. D3 guarantees that every <code>d3.now()</code> called within the same frame gets the same timestamp.</p>
+
+<p><code>(d3.now()-lastFrame)/16</code> tells us how many frames were meant to have happened since last iteration. Most of the time this value will be <code>1</code>.</p>
+
+<p>We use it as a multiplier for the physics calculations. Our physics should look correct now regardless of browser throttling.</p>
+
+<p>Unfortunately these fixes exacerbate the &quot;ball stuck at bottom&quot; bug. It happens when the ball goes below <code>MAX_H</code> and doesn't have enough bounce to get back above <code>MAX_H</code> in a single frame.</p>
+
+<p>You can fix it with a flag of some sort. Only bounce, if you haven't bounced in the last N frames. Something like that.</p>
+
+<p data-height="847" data-theme-id="0" data-slug-hash="NdYNKj" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="React D3 manual animation - bouncing ball, with time fixing" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/swizec/pen/NdYNKj/">React D3 manual animation - bouncing ball, with time fixing</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<h1>Using transitions for simple animation</h1>
+
+<p>Game loops are great when you need fine-grained control. But what, if you just want an element to animate a little bit when a user does something? You don't care about the details, you just want a little flourish.</p>
+
+<p>That's where transitions come in.</p>
+
+<p>Transitions are a way to animate SVG elements by saying <em>&quot;I want this property to change to this new value and take this long to do it&quot;</em>. And you can use easing functions to make it look better.</p>
+
+<p>I won't go into details about <em>why</em> easing functions are important, but they make movement look more natural. You can read more about it in Disney's <a href="https://en.wikipedia.org/wiki/12_basic_principles_of_animation">12 Basic Principles of Animation</a>. </p>
+
+<p>The two we can achieve with easing functions are:</p>
+
+<ol>
+<li>Squash and Stretch</li>
+<li>Slow In Slow Out</li>
+</ol>
+
+<p>Let me show you how it works on a small example. We're drawing a field of 50 by 50 circles that &quot;flash&quot; when touched. The end result looks like there's a snake following your cursor.</p>
+
+<h2>Rainbow snake</h2>
+
+<p>You can play with the code on CodePen, <a href="http://codepen.io/swizec/pen/QdVoOg/">here</a>. Follow along as I explain how it works. Tweak parameters and see what happens :)</p>
+
+<p data-height="710" data-theme-id="0" data-slug-hash="QdVoOg" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="React D3 transition animation - rainbow field" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/swizec/pen/QdVoOg/">React D3 transition animation - rainbow field</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<h3>App</h3>
+
+<p>The App component needs only a <code>render</code> method that returns an SVG. Yes, that means it could've been a functional stateless component.</p>
+
+<pre><code class="javascript">  render() {
+    const width = 600,
+          N = 50,
+          pos = d3.scalePoint()
+                  .domain(d3.range(N))
+                  .range([0, width])
+                  .padding(5)
+                  .round(true);
+
+    return (
+      &lt;svg width=&quot;600&quot; height=&quot;600&quot;&gt;
+        {d3.range(N).map(x =&gt;
+           d3.range(N).map(y =&gt;
+             &lt;Dot x={pos(x)} y={pos(y)} key={`${x}-${y}`}
+                  maxPos={width} /&gt;
+        ))}
+      &lt;/svg&gt;
+    )
+  }
+</code></pre>
+
+<p>We're rendering a 600px by 600px SVG, with 50 nodes per row and column. We use D3's <code>scalePoint</code> for dot positioning because it does everything we need. Makes sure they're evenly spaced, gives them padding on the sides, and ensures coordinates are rounded numbers.</p>
+
+<p>Here's a diagram of how <code>scalePoint</code> works:</p>
+
+<figure>
+<img src="https://raw.githubusercontent.com/d3/d3-scale/master/img/point.png" alt="scalePoint diagram" />
+<figcaption>scalePoint diagram</figcaption>
+</figure>
+
+<p>To render the grid, we use two nested loops going from 0 to N. <code>d3.range</code> builds an array for us so we can <code>.map</code> over it. We return a <code>&lt;Dot&gt;</code> component for each iteration.</p>
+
+<p>Looking at this code: <code>x={pos(x)} y={pos(y)}</code> you can see why D3 scales are so neat. All positioning calculation boiled down to a 1-parameter function call. \o/</p>
+
+<p>{aside}
+Notice that unlike so far, we didn't mess about with <code>updateD3</code> and lifecycle methods. That's useful when we're dealing with large datasets and many re-renders. You don't need the complexity when building something small.
+{/aside}</p>
+
+<h3>Dot</h3>
+
+<p>The Dot component has more moving parts. It needs a <code>constructor</code>, a transition callback – <code>flash</code>, a <code>color</code> getter, and a <code>render</code> method.</p>
+
+<pre><code class="javascript">class Dot extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = Object.assign({},
+                               props,
+                               {r: 5});
+  }
+
+  flash() {
+        // transition code
+  }
+
+  get color() {
+    // color calculation
+  }
+
+  render() {
+    const { x, y, r, colorize } = this.state;
+
+    return &lt;circle cx={x} cy={y} r={r}
+             ref=&quot;circle&quot; onMouseOver={this.flash.bind(this)}
+             style={{fill: colorize ? this.color : 'black'}} /&gt;
+  }
+}
+</code></pre>
+
+<p>We initialize state in the component <code>constructor</code>. The quickest approach is to copy all <code>props</code> to <code>state</code>, even though we don't need all props to be in state. </p>
+
+<p>Normally, you want to avoid state and render all components from props. Functional principles, state is bad, and all that. But as <a href="https://twitter.com/frangel85">Freddy Rangel</a> likes to say <em>&quot;State is for props that change over time&quot;</em>. </p>
+
+<p>Guess what transitions are ... props that change over time :)</p>
+
+<p>So we put props in state and render from state. This lets us keep a stable platform while running transitions. It ensures that changes re-rendering <code>Dot</code> from above, won't interfere with D3 transitions.</p>
+
+<p>Not super important in our example because those changes never happen. But I had many interesting issues in this <a href="https://swizec.com/blog/using-d3js-transitions-in-react/swizec/6797">animated typing example</a>. We'll look at that one later.</p>
+
+<p>For the <code>render</code> method, we return an SVG <code>&lt;circle&gt;</code> element positioned at <code>(x, y)</code>, with a radius, an <code>onMouseOver</code> listener, and a style with the <code>fill</code> color depending on <code>state.colorize</code>.</p>
+
+<h4>flash() – the transition</h4>
+
+<p>When you mouse over one of the dots, its <code>flash()</code> method gets called as an event callback. This is where we transition to pops the circle bigger, then back to normal size.</p>
+
+<pre><code class="javascript">  flash() {
+    let node = d3.select(this.refs.circle);
+
+    this.setState({colorize: true});
+
+    node.transition()
+        .attr('r', 20)
+        .duration(250)
+        .ease(d3.easeCubicOut)
+        .transition()
+        .attr('r', 5)
+        .duration(250)
+        .ease(d3.easeCubicOut)
+        .on('end', () =&gt; this.setState({colorize: false}));
+  }
+</code></pre>
+
+<p>Here's what happens:</p>
+
+<ol>
+<li>We <code>d3.select</code> the <code>&lt;circle&gt;</code> node. This enables D3 to take over the rendering of this particular DOM node</li>
+<li>We <code>setState</code> to enable colorization. Yes, this triggers a re-render.</li>
+<li>We start a <code>transition</code> that changes the <code>r</code> attribute to <code>20</code> pixels over a duration of <code>250</code> milliseconds.</li>
+<li>We add an <code>easeCubicOut</code> easing function, which makes the animation look more natural</li>
+<li>When the transition ends, we start another similar transition, but change <code>r</code> back to <code>5</code>.</li>
+<li>When <em>that</em>'s done, we turn off colorization and trigger another re-render.</li>
+</ol>
+
+<p>If our transition didn't return things back to normal, I would use the <code>'end'</code> opportunity, to sync React component state with reality. Something like <code>this.setState({r: 20})</code>.</p>
+
+<h4>get color() – the colorization</h4>
+
+<p>Colorization doesn't have anything to do with transitions, but I want to explain how it works. Mostly to remind you that high school math is useful.</p>
+
+<p>Here's what the colored grid looks like:</p>
+
+<figure>
+<img src="http://i.imgur.com/vjkQq57.png" alt="" />
+</figure>
+
+<p>Colors follow a radial pattern even though <code>d3.interpolateWarm</code> takes a single argument in the <code>[0, 1]</code> range. We achieve the pattern using <a href="http://www.mathopenref.com/coordparamcircle.html">circle parametrization</a>.</p>
+
+<p><code>x^2 + y^2 = r^2</code></p>
+
+<p>Calibrate a linear scale to translate between <code>[0, maxR^2]</code> and <code>[0, 1]</code>, then feed it <code>x^2 + y^2</code> and you get the <code>interpolateWarm</code> parameter. Magic :)</p>
+
+<pre><code class="javascript">  get color() {
+    const { x, y, maxPos } = this.state;
+
+    const t = d3.scaleLinear()
+                .domain([0, 1.2*maxPos**2])
+                .range([0, 1]);
+
+    return d3.interpolateWarm(t(x**2 + y**2));
+  }
+</code></pre>
+
+<p>We calibrate the <code>t</code> scale to <code>1.2*maxPos**2</code> for two reasons. First, you want to avoid square roots because they're slow. Second, adding the <code>1.2</code> factor changes how the color scale behaves and makes it look better.</p>
+
+<p>At least I think so. Experiment ;)</p>
+
+<h3>More things to try</h3>
+
+<p>There's a bunch of things you can improve about this example. I suggest you try them and see how it goes.</p>
+
+<p>We really should have taken the <code>r</code> parameter as a property on <code>&lt;Dot&gt;</code>, saved it in state as a, say, <code>baseR</code>, then made sure the transition returns our dot back to that instead of a magic <code>5</code> number. Peppering your code with magic numbers is often a bad idea.</p>
+
+<p>Another improvement could be rendering more circles to provide a tighter grid. That doesn't work so well on CodePen, however. Breaks down with so many nodes. 😔</p>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="en"><p lang="tl" dir="ltr">PS: 6400 SVG nodes breaks <a href="https://twitter.com/CodePen">@CodePen</a> <a href="https://t.co/9u9ATaGHJh">pic.twitter.com/9u9ATaGHJh</a></p>&mdash; Swizec (@Swizec) <a href="https://twitter.com/Swizec/status/829590239458922496">February 9, 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>You could also add transitions to the first time a circle renders. But you need something called <code>ReactTransitionGroup</code> to achieve that and it breaks down with this many elements.</p>
+
+<p>Because enter/exit transitions make many data visualizations better, we're going to look at another example just for that. A typing animation where letters fly in and fall out as you type.</p>
+
+    </article>
+
+
+    <article class="navigation">
+
+      <h2>Proceed to Final Project</h2>
+
+      <div class="nav-buttons">
+        <a href="/react-and-d3-workshop/module-6.html" class="btn">Next Module</a>
+        <a href="/react-and-d3-workshop/module-4.html" class="btn">Back</a>
       </div>
     </article>
 
   </div>
-  <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
 </body>
 </html>

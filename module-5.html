@@ -5,7 +5,8 @@
   <title>React and D3 Workshop</title>
   <link rel="stylesheet" href="reset.css">
   <link rel="stylesheet" href="index.css">
-  <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+  <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 </head>
 <body>
 
@@ -16,414 +17,306 @@
   <div class="outer-container">
     <h1>React and D3</h1>
 
-    <h2 class="module-title">Module 5: React + D3 Animations</h2>
+    <h2 class="module-title">Module 5: D3 + React Integration</h2>
     <article class="module">
+<h1>The basic approach</h1>
 
-<p>Welcome to the animation section. This is where the real fun begins. Demos that look cool and impress your friends.</p>
+<p>Our visualizations are going to use SVG - an XML-based image format that lets us describe images in terms of mathematical shapes. For example, the source code of an 800x600 SVG image with a rectangle looks like this:</p>
 
-<figure>
-<img src="http://i1.kym-cdn.com/photos/images/facebook/000/085/444/1282786204310.jpg" alt="" />
-</figure>
+<h3>SVG rectangle</h3>
 
-<p>You already know how React and D3 work together, so these demos are going to go faster. You know that we're using React for rendering SVG, and D3 for calculating props. You know how to make your dataviz interactive, and how to handle oodles of data.</p>
+<p data-height="265" data-theme-id="0" data-slug-hash="MpeegG" data-default-tab="html,result" data-user="swizec" data-embed-version="2" data-pen-title="SVG rectangle" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/swizec/pen/MpeegG/">SVG rectangle</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 
-<p>Now you're going to learn how to make it dance. To build smooth transitions between states, build complex animations, and how to interact with the user in real-time. 60 frames per second baby!</p>
+<p>These four lines create an SVG image with a black rectangle at coordinates <code>(50, 20)</code> that is 100x200 pixels large. Black fill with no borders is default for all SVG shapes.</p>
 
-<p>Our general approach to animation goes like this: Render from state. Change state 60 times per second. Animation!</p>
+<p>SVG is perfect for data visualization on the web because it works in all browsers, renders without blurring or artifacts on all screens, and supports animation and user interaction. You can see examples of interaction and animation later in this book.</p>
 
-<p>We're going to use two different ways of changing state so often. The first follows a game loop principle, which gives you more control, but is more tedious. The second is using D3 transitions, which is quicker to build, but gives you less control.</p>
+<p>But SVG can get slow when you have many thousands of elements on screen. We're going to solve that problem by rendering bitmap images with canvas. More on that later.</p>
 
-<p>We're going to start with an example or two in CodePen, then build something more involved. But don't worry, no more big huge projects like the <a href="#salary-visualization">tech salary visualization</a></p>
+<hr />
 
-<h2>Using a game loop for rich animation</h2>
+<p>Another nice feature of SVG is that it's just a dialect of XML - nested elements describe structure, attributes describe the details. The same principles that HTML uses.</p>
 
-<p>I love game loops. It even sounds fun &quot;game loop&quot;. Maybe it's just that whenever I build a game loop, the thing I'm building is fun to play with. 🤔</p>
+<p>That makes React's rendering engine particularly suited for SVG. Our 100x200 rectangle from before looks like this as a React component:</p>
 
-<p>A game loop is an infinite loop where each iteration renders the next frame of your game or animation. You do your best to complete each iteration in 16 milliseconds and your user gets smooth animation.</p>
+<h3>React rectangle</h3>
 
-<p>As you can imagine, our challenge is to cram all physics and rendering into those 16 milliseconds. The more elements you're rendering, the harder it gets.</p>
+<p data-height="265" data-theme-id="0" data-slug-hash="mWEEdV" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="SVG rectangle React" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/swizec/pen/mWEEdV/">SVG rectangle React</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 
-<h2>A bouncing ball</h2>
+<p>You're right. This looks like tons of work for a static rectangle. But look closely. Even if you know nothing about React and JSX, you can look at that code and see that it's a <code>Picture</code> of a <code>Rectangle</code>.</p>
 
-<p>Let's get our feet wet with my favorite childhood example: a bouncing ball. </p>
+<p>Compare that to a pure D3 approach:</p>
 
-<p>I must have built dozens of them back in my <a href="https://en.wikipedia.org/wiki/Turbo_Pascal">Turbo Pascal</a> days using <a href="https://en.wikipedia.org/wiki/Borland_Graphics_Interface">BGI</a>. Yes, those Turbo Pascal and BGI are from the 80's. No, I'm not that old, I just started young and with old equipment. Coding for DOS is easier when you're a kid than coding for Windows 95.</p>
+<h3>Pure D3 rectangle</h3>
 
-<p>I suggest you follow along on CodePen. Here's one I prepared for you earlier:</p>
+<p data-height="265" data-theme-id="0" data-slug-hash="WpxxbE" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="SVG rectangle D3" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/swizec/pen/WpxxbE/">SVG rectangle D3</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 
-<p data-height="703" data-theme-id="0" data-slug-hash="WRzqvK" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="React D3 manual animation - bouncing ball, unsolved" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/swizec/pen/WRzqvK/">React D3 manual animation - bouncing ball, unsolved</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<p>It's elegant, it's declarative, it looks like function call soup. It doesn't scream <em>&quot;Rectangle in an SVG&quot;</em> to me as much as the React example does. </p>
 
+<p>You have to take your time and read the code carefully: first, we <code>select</code> the <code>svg</code> element, then we add attributes for <code>width</code> and <code>height</code>. After that, we <code>append</code> a <code>rect</code> element and set its attributes for <code>width</code>, <code>height</code>, <code>x</code>, and <code>y</code>.</p>
 
-<h3>Step 1: stub it out</h3>
+<p>Those 8 lines of code create HTML that looks like this:</p>
 
-<p>We start with a skeleton: An empty <code>Ball</code> component, and an <code>App</code> component stubbed out to run the game loop.</p>
+<p><code><pre>
+&lt;svg width=&quot;800&quot; height=&quot;600&quot;&gt;
+    &lt;rect width=&quot;100&quot; height=&quot;200&quot; x=&quot;50&quot; y=&quot;20&quot; /&gt;
+&lt;/svig&gt;
+</code></pre></p>
 
-<pre><code class="javascript">const Ball = ({ x, y }) =&gt; (
+<p>Would've been easier to just write the HTML, right? Yes, for static images you're better off using Photoshop or something then exporting to SVG.</p>
 
+<p>Either way, dealing with the DOM is not D3's strong suit. There's a lot of typing, code that's hard to read, it's slow when you have thousands of elements, and it's often hard to keep track of which elements you're changing. D3's enter-update-exit cycle is great in theory, but I personally never found it easy to use.</p>
+
+<p>If you don't know what I just said, don't worry. We'll cover the enter-update-exit cycle in the animations example. Don't worry about D3 either. <strong>I know it's hard</strong>. I've written two books about it, and I still spend as much time reading the docs as writing the code. There's much to learn, and I'll explain everything as we go along.</p>
+
+<p>D3's strong suit is its ability to do everything other than the DOM. There are many statistical functions, great support for data manipulation, and a bunch of built-in data visualizations. <strong>D3 can calculate anything for us. All we have to do is draw it out.</strong></p>
+
+<p>Which is why we're going to follow this approach:</p>
+
+<ul>
+<li>React owns the DOM</li>
+<li>D3 calculates properties</li>
+</ul>
+
+<p>This way, we can leverage React for SVG structure and rendering optimizations and D3 for all its mathematical and visualization functions.</p>
+
+<p>Now let's look at two different ways to put them together: blackbox and full-feature.</p>
+
+<h1>Blackbox Components</h1>
+
+<p>Blackbox components are the simplest way to integrate D3 and React. You can think of them as wrappers around D3 visualizations.</p>
+
+<p>You can take any D3 example from the internets or your brain, wrap it in a thin React component, and it Just Works™. Yes, we go against what I just said and let D3 control a small part of the DOM tree.</p>
+
+<p>We throw away most of React's power, but we gain a quick way to get things working.</p>
+
+<p>I call the approach <em>&quot;blackbox&quot;</em> because React's engine can't see inside your component, can't help with rendering, and has no idea what's going on. From this point onward in the DOM tree, you are on your own. It sounds scary, but it's okay if you're careful.</p>
+
+<p>Here's how it works:
+- React renders an anchor element
+- D3 hijacks it and puts stuff in</p>
+
+<p>You have to manually re-render on props and state changes. You're also throwing away and recreating your component's entire DOM on each re-render.</p>
+
+<p>Manual re-rendering is not as annoying as it sounds, but the inefficiency can get pretty bad with complex visualizations. Use this technique sparingly.</p>
+
+<h2>A quick blackbox example - a D3 axis</h2>
+
+<p>Let's build an axis component. Axes are the perfect use-case for blackbox components. D3 comes with an axis generator bundled inside, and they're difficult to build from scratch.</p>
+
+<p>They don't <em>look</em> difficult, but there are many tiny details you have to get <em>just right</em>.</p>
+
+<p>D3's axis generator takes a scale and some configuration to render an axis for us. The code looks like this:</p>
+
+<h3>Pure D3 version</h3>
+
+<p data-height="265" data-theme-id="0" data-slug-hash="YGoYBM" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="pure-d3-axis" data-editable="true" class="codepen">See the Pen <a href="https://codepen.io/swizec/pen/YGoYBM/">pure-d3-axis</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<p>If this code doesn't make any sense, don't worry. There's a bunch of D3 to learn, and I'll help you out. If it's obvious, you're a pro! This book will be much quicker to read.</p>
+
+<p>We start with a linear scale that has a domain <code>[0, 10]</code> and a range <code>[0, 200]</code>. You can think of scales as mathematical functions that map a domain to a range. In this case, calling <code>scale(0)</code> returns <code>0</code>, <code>scale(5)</code> returns <code>100</code>, <code>scale(10)</code> returns <code>200</code>. Just like middle school mathematics.</p>
+
+<p>We create an axis generator with <code>axisBottom</code>, which takes a <code>scale</code> and is going to generate a <code>bottom</code> oriented axis – numbers below the line. You can also tweak settings for the number of ticks, their sizing, and their spacing.</p>
+
+<p>Equipped with an <code>axis</code> generator, we <code>select</code> the <code>svg</code> element, append a grouping element, use a <code>transform</code> attribute to move it <code>10</code>px to the right and <code>30</code>px down, and invoke the generator with <code>.call()</code>.</p>
+
+<h2>A quick blackbox example - a React+D3 axis</h2>
+
+<p>Now let's say we want to use that same axis code but as a React component. The simplest way is to use a blackbox component approach like this:</p>
+
+<h3>Blackbox version</h3>
+
+<p data-height="447" data-theme-id="0" data-slug-hash="qazxPz" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="react-d3-axis" data-editable="true" class="codepen">See the Pen <a href="https://codepen.io/swizec/pen/qazxPz/">react-d3-axis</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<p>Oh man! So much code! Is this really worth it? Yes, for the other benefits of using React in your dataviz. You'll see :)</p>
+
+<p>We created an <code>Axis</code> component that extends React base <code>Component</code> class. We can't use functional stateless components for this because we need lifecycle hooks. More on those later.</p>
+
+<p>Our component has a <code>render</code> method, which returns a grouping element (<code>g</code>) moved 10px to the right and 30px down using the <code>transform</code> attribute. Same as before.</p>
+
+<p>We added a <code>ref</code> attribute, which lets us reference elements in our component via <code>this.refs</code>. This makes D3 integration cleaner, and it probably works with React-native. I haven't tried yet.</p>
+
+<p>The body of <code>renderAxis</code> should look familiar. It's where we put code from the pure D3 example. Scale, axis, select, call. There's no need to append a grouping element; we're already there with <code>this.refs.g</code>.</p>
+
+<p>For the manual re-rendering part, we call <code>renderAxis</code> in <code>componentDidUpdate</code> and <code>componentDidMount</code>. This ensures that our axis re-renders every time React's engine decides to render our component. On state and prop changes usually.</p>
+
+<p>That wasn't so bad, was it?</p>
+
+<p>To make our axis more useful, we could get the scale and axis orientation from props. We'll do that for scales in our bigger project.</p>
+
+<h1>A D3 blackbox higher order component – HOC</h1>
+
+<p>After the blackbox axis example above, you'd be right to think something like <em>&quot;Dude, that looks like it's gonna get hella repetitive. Do I really have to do all that every time?&quot;</em></p>
+
+<p>Yes, you do. But! We can make it easier with a higher order component - a HOC.</p>
+
+<p>Higher order components are one of the best ways to improve your React code. When you see more than a few components sharing similar code, it's time for a HOC. In our case, that shared code would be:</p>
+
+<ul>
+<li>rendering an anchor element</li>
+<li>calling D3's render on updates</li>
+</ul>
+
+<p>With a HOC, we can abstract that away into something called a <a href="https://en.wikipedia.org/wiki/Factory_method_pattern">class factory</a>. It's an old concept coming back in vogue now that JavaScript has classes.</p>
+
+<p>You can think of it as a function that takes some params and creates a class – a React component. Another way to think about HOCs is that they're React components wrapping other React components and a function that makes it easy.</p>
+
+<p>Let's build a HOC for D3 blackbox integration. We'll use it in the main example project.</p>
+
+<p>A <code>D3blackbox</code> HOC looks like this:</p>
+
+<h3>D3blackbox HOC</h3>
+<p data-height="642" data-theme-id="0" data-slug-hash="woNjVw" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="react-d3-HOC-axis" data-editable="true" class="codepen">See the Pen <a href="https://codepen.io/swizec/pen/woNjVw/">react-d3-HOC-axis</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<p>You'll recognize most of that code from earlier. We have a <code>componentDidMount</code> and<code>componentDidUpdate</code> lifecycle hooks that call <code>D3render</code> on component updates. This used to be called <code>renderAxis</code>. <code>render</code> renders a grouping element as an anchor into which D3 can put its stuff.</p>
+
+<p>Because <code>D3render</code> is no longer a part of the component, we have to use <code>.call</code> to give it the scope we want: this class, or rather <code>this</code> instance of the <code>Backbone</code> class.</p>
+
+<p>We've also made some changes to make <code>render</code> more flexible. Instead of hardcoding the <code>translate()</code> transformation, we take <code>x</code> and <code>y</code> props. <code>{ x, y } = this.props</code> takes <code>x</code> and <code>y</code> out of <code>this.props</code> using object decomposition, and we used ES6 string templates for the <code>transform</code> attribute.</p>
+
+<p>Consult the <a href="https://es6cheatsheet.com/">ES6 cheatsheet</a> for details on that.</p>
+
+<p>Using our new <code>D3blackbox</code> HOC to make an axis looks like this:</p>
+
+<p><code><pre>
+const Axis = D3blackbox(function () {
+  const scale = d3.scaleLinear()
+                  .domain([0, 10])
+                  .range([0, 200]);
+  const axis = d3.axisBottom(scale);
+
+  d3.select(this.refs.anchor)
+    .call(axis);
+
+});
+</pre></code></p>
+
+<p>It’s the aame code as we had in <code>renderAxis</code> before. The only difference is that the function is wrapped in a <code>D3blackbox</code> call. This turns it into a React component.</p>
+
+<p>I'm not 100% whether wrapping a function in a React component counts as a real HOC, but let's roll with it. More proper HOCs are React components wrapped in components.</p>
+
+<p>You can play with this example on Codepen <a href="https://codepen.io/swizec/pen/woNjVw">here</a>.</p>
+
+<h1>Full-feature Integration</h1>
+
+<p>As useful as blackbox components are, we need something better if we want to leverage React's rendering engine. We're going to look at full-feature integration where React does the rendering and D3 calculates the props.</p>
+
+<p>To do that, we're going to follow a 3-part pattern:
+- set up D3 objects as class properties
+- update D3 objects when component updates
+- output SVG in <code>render()</code></p>
+
+<p>It's easiest to show you with an example.</p>
+
+<p>Let's build a rectangle that changes color based on prop values. We'll render a few of them to make a color scale.</p>
+
+<p>Yes, it looks like a trivial example, but color-as-information is an important concept in data visualization. We're going to use it later to build a choropleth map of household income in the US.</p>
+
+<p>I suggest following along in Codepen for now. <a href="https://codepen.io/swizec/pen/oYNvpQ">Here's one I set up for you</a>. It contains the final solution, so you can follow along and nod your head. I'll explain each part.</p>
+
+<h2>A color scale</h2>
+
+<p data-height="575" data-theme-id="0" data-slug-hash="oYNvpQ" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="d3 color scale" data-editable="true" class="codepen">See the Pen <a href="https://codepen.io/swizec/pen/oYNvpQ/">d3 color scale</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+<p>We start with a <code>Swatch</code> component that draws a rectangle and fills it with a color.</p>
+
+<h3>Swatch component</h3>
+<p><code><pre>
+const Swatch = ({ color, width, x }) =&gt; (
+    &lt;rect width={width}
+      height=&quot;20&quot;
+      x={x}
+      y=&quot;0&quot;
+      style={{fill: color}} /&gt;
 );
+</pre></code></p>
 
-const MAX_H = 750;
+<p>Looks like our earlier components, doesn't it? It's exactly the same: a functional stateless component that draws a <code>rect</code> element with some attributes - dimensions, position, and <code>fill</code> style.</p>
 
-class App extends Component {
-  constructor() {
-    super();
+<p>Note that <code>style</code> is a dictionary, so we specify it with double curly braces: outer braces for a dynamic value, inner braces for a dictionary.</p>
 
-    this.state = {
-      y: 5,
-      vy: 0
-    }
-  }
+<p>Then we need a <code>Colors</code> component. It follows the full-featured integration structure: D3 objects as properties, an <code>updateD3</code> function, plus some wiring for updates and rendering.</p>
 
-  componentDidMount() {
-    // start game loop
-  }
+<h3>Colors component, pt1</h3>
+<p><code><pre>
+class Colors extends Component {
+    colors = d3.schemeCategory20;
+    width = d3.scaleBand()
+          .domain(d3.range(20));
+</pre></code></p>
 
-  componentWillUnmount() {
-    // stop loop
-  }
+<p>We start by inheriting from <code>Component</code> and defining defaults for D3 objects. <code>this.colors</code> is one of <a href="https://github.com/d3/d3-scale/blob/master/README.md#schemeCategory10">D3's predefined color scales</a>. <code>schemeCategory20</code> is a scale of 20 colors designed for categorization. It seemed like a good example, and you're welcome to try others.</p>
 
-  gameLoop() {
-    // move ball
-  }
+<p><code>this.width</code> is a D3 scale designed for producing bands, <code>d3.scaleBand</code>. As mentioned earlier, scales map domains to ranges. We know our domain is 20 colors, so we can statically set the domain as <code>[1, 2, 3, ..., 20]</code> with <code>d3.range(20)</code>.</p>
 
-  render() {
-    // render svg
-  }
-}
-</code></pre>
+<p><code>d3.range</code> generates a counting array, by the way. We'll use that a lot.</p>
 
-<p>Nothing renders yet. CodePen complains about missing code and unexpected tokens.</p>
-
-<p>The default state sets our ball's <code>y</code> coordinate to <code>5</code> and its vertical speed – <code>vy</code> – to <code>0</code>. Initial speed zero, initial position top. Perfect for a big drop.</p>
-
-<h3>Step 2: The Ball</h3>
-
-<p>We can approximate the <code>Ball</code> component with a circle. No need to get fancy, we're focusing on the animations part.</p>
-
-<pre><code class="javascript">const Ball = ({ x, y }) =&gt; (
-  &lt;circle cx={x} cy={y} r={5} /&gt;
-);
-</code></pre>
-
-<p>Our <code>Ball</code> renders at <code>(x, y)</code> and has a radius of 5 pixels. The CSS paints it black.</p>
-
-<p>It's these coordinates that we're going to play with to make the ball drop and bounce. Each time, React is going to re-render and move our ball to its new coordinates. Because we change them so quickly, it looks like the ball is animated. You'll see.</p>
-
-<h3>Step 3: Rendering</h3>
-
-<p>We need an SVG of appropriate height and a ball inside. All that goes in <code>App.render</code>.</p>
-
-<pre><code class="javascript">class App extends Component {
-    // ...
-  render() {
-    return (
-      &lt;svg width=&quot;100%&quot; height={MAX_H}&gt;
-        &lt;Ball x={50} y={this.state.y} /&gt;
-      &lt;/svg&gt;
-    )
-  }
-}
-</code></pre>
-
-<p>We're using <code>MAX_H</code>, which is set to 750, because a falling ball needs a lot of room to bounce up and down. You've thrown bouncy balls in a small apartment before haven't you? It's terrifying.</p>
-
-<p>A black ball should show up on your screen.</p>
-
-<h3>Step 4: The Game Loop</h3>
-
-<p>To make the ball bounce, we need to start an infinite loop when our component first renders, change the ball's <code>y</code> coordinate on every iteration, and stop the loop when React unmounts our component. Wouldn't want to keep hogging resources would we?</p>
-
-<pre><code class="javascript">componentDidMount() {
-    this.timer = d3.timer(() =&gt; this.gameLoop());
-    this.gameLoop();
-}
-
-componentWillUnmount() {
-    this.timer.stop();
-}
-
-gameLoop() {
-    let { y, vy } = this.state;
-
-    if (y &gt; MAX_H) {
-        vy = -vy*.87;
-    }
-
-    this.setState({
-        y: y+vy,
-        vy: vy+0.3
-    })
-}
-</code></pre>
-
-<p>We start a new <code>d3.timer</code> when our App mounts, then stop it when App unmounts. This way we can be sure there aren't any infinite loops running that we can't see.</p>
-
-<p>You can read details about D3 timers in <a href="https://github.com/d3/d3-timer">d3-timer documentation</a>. The tl;dr version is that they're a lot like JavaScript's native <code>setInterval</code>, but pegged to <code>requestAnimationFrame</code>. That makes them smoother and friendlier to browser's CPU throttling features.</p>
-
-<p>It basically means our game loop executes every time the browser is ready to repaint. More or less every 16 milliseconds.</p>
-
-<p>We simulate bounce physics in the <code>gameLoop</code> function. With each iteration we add vertical speed to vertical position and increase the speed.</p>
-
-<p>Remember high school? <code>v = v0 + g*t</code>. Speed equals speed plus acceleration multiplied by time. Our acceleration is gravity, our time is &quot;1 frame&quot;.</p>
-
-<p>And acceleration is measured in meters per second per second. Basically the increase in speed observed every second. Real gravity is 10m/s<sup>2</sup>, our factor is <code>0.3</code>. Discovered when playing around. That's what looked natural.</p>
-
-<p>For the bounce, we look at the <code>y</code> coordinate and compare with <code>MAX_H</code>. When it's over, we invert the speed vector and multiply with the bounce factor. Again, discovered experimentally when the animation looked natural.</p>
-
-<p>Tweak the factors to see how they affect your animation. Changing the <code>0.3</code> value should make gravity feel stronger or weaker, and changing the <code>0.87</code> value should affect how high the ball bounces.</p>
-
-<p>Notice that we never look at minimum height to make the ball start falling back down. There's no need. Add <code>0.3</code> to a negative value often enough and it turns positive.</p>
-
-<p>Here's a CodePen with the <a href="http://codepen.io/swizec/pen/bgvEvp?editors=0010">final bouncy ball code</a></p>
-
-<h3>Step 5: Correcting for time</h3>
-
-<p>If you run the CodePen a few times, you'll notice two bugs. The first is that sometimes our ball gets trapped at the bottom of the bounce. We won't fix this one, it's tricky.</p>
-
-<p>The second is that when you slow down your computer, the ball starts lagging. That's not how things behave in real life.</p>
-
-<p>We're dealing with dropped frames.</p>
-
-<p>Modern browsers slow down JavaScript in tabs that aren't focused, on computers running off battery power, when batteries get low ... there's many reasons in the pile. I don't know all of them. If we want our animation to look smooth, we have to account for these effects.</p>
-
-<p>We have to calculate how much time each frame took, and adjust our physics.</p>
-
-<pre><code class="javascript">gameLoop() {
-    let { y, vy, lastFrame } = this.state;
-
-    if (y &gt; MAX_H) {
-        vy = -vy*.87;
-    }
-
-    let frames = 1;
-
-    if (lastFrame) {
-        frames = (d3.now()-lastFrame)/(1000/60);
-    }
-
-    this.setState({
-        y: y+vy*frames,
-        vy: vy+0.3*frames,
-        lastFrame: d3.now()
-    })
-}
-</code></pre>
-
-<p>We add <code>lastFrame</code> to game state and set it with <code>d3.now()</code>. This gives us a high resolution timestamp that's pegged to <code>requestAnimationFrame</code>. D3 guarantees that every <code>d3.now()</code> called within the same frame gets the same timestamp.</p>
-
-<p><code>(d3.now()-lastFrame)/16</code> tells us how many frames were meant to have happened since last iteration. Most of the time this value will be <code>1</code>.</p>
-
-<p>We use it as a multiplier for the physics calculations. Our physics should look correct now regardless of browser throttling.</p>
-
-<p>Unfortunately these fixes exacerbate the &quot;ball stuck at bottom&quot; bug. It happens when the ball goes below <code>MAX_H</code> and doesn't have enough bounce to get back above <code>MAX_H</code> in a single frame.</p>
-
-<p>You can fix it with a flag of some sort. Only bounce, if you haven't bounced in the last N frames. Something like that.</p>
-
-<p data-height="847" data-theme-id="0" data-slug-hash="NdYNKj" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="React D3 manual animation - bouncing ball, with time fixing" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/swizec/pen/NdYNKj/">React D3 manual animation - bouncing ball, with time fixing</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-
-<h1>Using transitions for simple animation</h1>
-
-<p>Game loops are great when you need fine-grained control. But what, if you just want an element to animate a little bit when a user does something? You don't care about the details, you just want a little flourish.</p>
-
-<p>That's where transitions come in.</p>
-
-<p>Transitions are a way to animate SVG elements by saying <em>&quot;I want this property to change to this new value and take this long to do it&quot;</em>. And you can use easing functions to make it look better.</p>
-
-<p>I won't go into details about <em>why</em> easing functions are important, but they make movement look more natural. You can read more about it in Disney's <a href="https://en.wikipedia.org/wiki/12_basic_principles_of_animation">12 Basic Principles of Animation</a>. </p>
-
-<p>The two we can achieve with easing functions are:</p>
-
-<ol>
-<li>Squash and Stretch</li>
-<li>Slow In Slow Out</li>
-</ol>
-
-<p>Let me show you how it works on a small example. We're drawing a field of 50 by 50 circles that &quot;flash&quot; when touched. The end result looks like there's a snake following your cursor.</p>
-
-<h2>Rainbow snake</h2>
-
-<p>You can play with the code on CodePen, <a href="http://codepen.io/swizec/pen/QdVoOg/">here</a>. Follow along as I explain how it works. Tweak parameters and see what happens :)</p>
-
-<p data-height="710" data-theme-id="0" data-slug-hash="QdVoOg" data-default-tab="js,result" data-user="swizec" data-embed-version="2" data-pen-title="React D3 transition animation - rainbow field" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/swizec/pen/QdVoOg/">React D3 transition animation - rainbow field</a> by Swizec Teller (<a href="http://codepen.io/swizec">@swizec</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-
-<h3>App</h3>
-
-<p>The App component needs only a <code>render</code> method that returns an SVG. Yes, that means it could've been a functional stateless component.</p>
-
-<pre><code class="javascript">  render() {
-    const width = 600,
-          N = 50,
-          pos = d3.scalePoint()
-                  .domain(d3.range(N))
-                  .range([0, width])
-                  .padding(5)
-                  .round(true);
-
-    return (
-      &lt;svg width=&quot;600&quot; height=&quot;600&quot;&gt;
-        {d3.range(N).map(x =&gt;
-           d3.range(N).map(y =&gt;
-             &lt;Dot x={pos(x)} y={pos(y)} key={`${x}-${y}`}
-                  maxPos={width} /&gt;
-        ))}
-      &lt;/svg&gt;
-    )
-  }
-</code></pre>
-
-<p>We're rendering a 600px by 600px SVG, with 50 nodes per row and column. We use D3's <code>scalePoint</code> for dot positioning because it does everything we need. Makes sure they're evenly spaced, gives them padding on the sides, and ensures coordinates are rounded numbers.</p>
-
-<p>Here's a diagram of how <code>scalePoint</code> works:</p>
+<p>We'll use <code>this.width</code> to calculate widths and positions of our color swatches. Here's a picture from D3 docs to help you visualize what <code>scaleBand</code> does:</p>
 
 <figure>
-<img src="https://raw.githubusercontent.com/d3/d3-scale/master/img/point.png" alt="scalePoint diagram" />
-<figcaption>scalePoint diagram</figcaption>
+<img src="https://raw.githubusercontent.com/d3/d3-scale/master/img/band.png" alt="Band Scale from D3 docs" />
+<figcaption>Band Scale from D3 docs</figcaption>
 </figure>
 
-<p>To render the grid, we use two nested loops going from 0 to N. <code>d3.range</code> builds an array for us so we can <code>.map</code> over it. We return a <code>&lt;Dot&gt;</code> component for each iteration.</p>
+<p>Unlike the domain, our range is dynamic so that we can use props to define the width of our color scale. This makes the component more reusable.</p>
 
-<p>Looking at this code: <code>x={pos(x)} y={pos(y)}</code> you can see why D3 scales are so neat. All positioning calculation boiled down to a 1-parameter function call. \o/</p>
-
-<p>{aside}
-Notice that unlike so far, we didn't mess about with <code>updateD3</code> and lifecycle methods. That's useful when we're dealing with large datasets and many re-renders. You don't need the complexity when building something small.
-{/aside}</p>
-
-<h3>Dot</h3>
-
-<p>The Dot component has more moving parts. It needs a <code>constructor</code>, a transition callback – <code>flash</code>, a <code>color</code> getter, and a <code>render</code> method.</p>
-
-<pre><code class="javascript">class Dot extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = Object.assign({},
-                               props,
-                               {r: 5});
-  }
-
-  flash() {
-        // transition code
-  }
-
-  get color() {
-    // color calculation
-  }
-
-  render() {
-    const { x, y, r, colorize } = this.state;
-
-    return &lt;circle cx={x} cy={y} r={r}
-             ref=&quot;circle&quot; onMouseOver={this.flash.bind(this)}
-             style={{fill: colorize ? this.color : 'black'}} /&gt;
-  }
+<h3>Colors component pt2</h3>
+<p><code><pre>
+componentWillMount() {
+ this.updateD3(this.props);
 }
-</code></pre>
 
-<p>We initialize state in the component <code>constructor</code>. The quickest approach is to copy all <code>props</code> to <code>state</code>, even though we don't need all props to be in state. </p>
+componentWillUpdate(newProps) {
+ this.updateD3(newProps);
+}
 
-<p>Normally, you want to avoid state and render all components from props. Functional principles, state is bad, and all that. But as <a href="https://twitter.com/frangel85">Freddy Rangel</a> likes to say <em>&quot;State is for props that change over time&quot;</em>. </p>
+updateD3(props) {
+ this.width.range([0, props.width]);
+}
+</pre></code></p>
 
-<p>Guess what transitions are ... props that change over time :)</p>
+<p><code>componentWillMount</code> and <code>componentWillUpdate</code> are component lifecycle hooks. Can you guess when they run?</p>
 
-<p>So we put props in state and render from state. This lets us keep a stable platform while running transitions. It ensures that changes re-rendering <code>Dot</code> from above, won't interfere with D3 transitions.</p>
+<p><code>componentWillMount</code> runs just before React's engine inserts our component into the DOM, and <code>componentWillUpdate</code> runs just before React updates it. That happens on any prop change or <code>setState</code> call.</p>
 
-<p>Not super important in our example because those changes never happen. But I had many interesting issues in this <a href="https://swizec.com/blog/using-d3js-transitions-in-react/swizec/6797">animated typing example</a>. We'll look at that one later.</p>
+<p>Both of them call our <code>updateD3</code> method with the new value of props. We use it to update <code>this.width</code> scale's range. Doing so keeps the internal state of D3 objects in sync with React's reality. Without it, our component might render stale data.</p>
 
-<p>For the <code>render</code> method, we return an SVG <code>&lt;circle&gt;</code> element positioned at <code>(x, y)</code>, with a radius, an <code>onMouseOver</code> listener, and a style with the <code>fill</code> color depending on <code>state.colorize</code>.</p>
+<p>Finally, we render a bunch of color swatches.</p>
 
-<h4>flash() – the transition</h4>
+<h3>Colors component pt3</h3>
+<p><code><pre>
+render() {
+    return (
+    &lt;g&gt;
+        {d3.range(20).map(i =&gt; (
+            &lt;Swatch color={this.colors[i]}
+        width={this.width.step()}
+        x={this.width(i)} /&gt;
+         ))}
+    &lt;/g&gt;
+    )
+}
+</pre></code></p>
 
-<p>When you mouse over one of the dots, its <code>flash()</code> method gets called as an event callback. This is where we transition to pops the circle bigger, then back to normal size.</p>
+<p>We create a grouping element to fulfill React's one child per component requirement, then render 20 swatches in a loop. Each gets a <code>color</code> from <code>this.colors</code> and a <code>width</code> and <code>x</code> from <code>this.width</code>.</p>
 
-<pre><code class="javascript">  flash() {
-    let node = d3.select(this.refs.circle);
+<p>After inserting into the DOM with <code>ReactDOM</code>, we get a series of 20 colorful rectangles.</p>
 
-    this.setState({colorize: true});
+<p>Try changing the <code>width=&quot;400&quot;</code> property of <code>&lt;Colors /&gt;</code>. You'll see D3's <code>scaleBand</code> and our update wiring ensure the color strip renders correctly. For more fun, try changing the <code>Colors</code> component so it takes the color scale as a prop, then rendering multiple instances of <code>&lt;Colors /&gt;</code> side-by-side.</p>
 
-    node.transition()
-        .attr('r', 20)
-        .duration(250)
-        .ease(d3.easeCubicOut)
-        .transition()
-        .attr('r', 5)
-        .duration(250)
-        .ease(d3.easeCubicOut)
-        .on('end', () =&gt; this.setState({colorize: false}));
-  }
-</code></pre>
-
-<p>Here's what happens:</p>
-
-<ol>
-<li>We <code>d3.select</code> the <code>&lt;circle&gt;</code> node. This enables D3 to take over the rendering of this particular DOM node</li>
-<li>We <code>setState</code> to enable colorization. Yes, this triggers a re-render.</li>
-<li>We start a <code>transition</code> that changes the <code>r</code> attribute to <code>20</code> pixels over a duration of <code>250</code> milliseconds.</li>
-<li>We add an <code>easeCubicOut</code> easing function, which makes the animation look more natural</li>
-<li>When the transition ends, we start another similar transition, but change <code>r</code> back to <code>5</code>.</li>
-<li>When <em>that</em>'s done, we turn off colorization and trigger another re-render.</li>
-</ol>
-
-<p>If our transition didn't return things back to normal, I would use the <code>'end'</code> opportunity, to sync React component state with reality. Something like <code>this.setState({r: 20})</code>.</p>
-
-<h4>get color() – the colorization</h4>
-
-<p>Colorization doesn't have anything to do with transitions, but I want to explain how it works. Mostly to remind you that high school math is useful.</p>
-
-<p>Here's what the colored grid looks like:</p>
-
-<figure>
-<img src="http://i.imgur.com/vjkQq57.png" alt="" />
-</figure>
-
-<p>Colors follow a radial pattern even though <code>d3.interpolateWarm</code> takes a single argument in the <code>[0, 1]</code> range. We achieve the pattern using <a href="http://www.mathopenref.com/coordparamcircle.html">circle parametrization</a>.</p>
-
-<p><code>x^2 + y^2 = r^2</code></p>
-
-<p>Calibrate a linear scale to translate between <code>[0, maxR^2]</code> and <code>[0, 1]</code>, then feed it <code>x^2 + y^2</code> and you get the <code>interpolateWarm</code> parameter. Magic :)</p>
-
-<pre><code class="javascript">  get color() {
-    const { x, y, maxPos } = this.state;
-
-    const t = d3.scaleLinear()
-                .domain([0, 1.2*maxPos**2])
-                .range([0, 1]);
-
-    return d3.interpolateWarm(t(x**2 + y**2));
-  }
-</code></pre>
-
-<p>We calibrate the <code>t</code> scale to <code>1.2*maxPos**2</code> for two reasons. First, you want to avoid square roots because they're slow. Second, adding the <code>1.2</code> factor changes how the color scale behaves and makes it look better.</p>
-
-<p>At least I think so. Experiment ;)</p>
-
-<h3>More things to try</h3>
-
-<p>There's a bunch of things you can improve about this example. I suggest you try them and see how it goes.</p>
-
-<p>We really should have taken the <code>r</code> parameter as a property on <code>&lt;Dot&gt;</code>, saved it in state as a, say, <code>baseR</code>, then made sure the transition returns our dot back to that instead of a magic <code>5</code> number. Peppering your code with magic numbers is often a bad idea.</p>
-
-<p>Another improvement could be rendering more circles to provide a tighter grid. That doesn't work so well on CodePen, however. Breaks down with so many nodes. 😔</p>
-
-<blockquote class="twitter-tweet" data-conversation="none" data-lang="en"><p lang="tl" dir="ltr">PS: 6400 SVG nodes breaks <a href="https://twitter.com/CodePen">@CodePen</a> <a href="https://t.co/9u9ATaGHJh">pic.twitter.com/9u9ATaGHJh</a></p>&mdash; Swizec (@Swizec) <a href="https://twitter.com/Swizec/status/829590239458922496">February 9, 2017</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-<p>You could also add transitions to the first time a circle renders. But you need something called <code>ReactTransitionGroup</code> to achieve that and it breaks down with this many elements.</p>
-
-<p>Because enter/exit transitions make many data visualizations better, we're going to look at another example just for that. A typing animation where letters fly in and fall out as you type.</p>
-
+<p>Here's the playground again: <a href="https://codepen.io/swizec/pen/oYNvpQ">CodePen</a></p>
     </article>
-
 
     <article class="navigation">
 
-      <h2>Proceed to Final Project</h2>
+      <h2>Proceed to Animations</h2>
 
       <div class="nav-buttons">
-        <a href="/react-and-d3-workshop/module-6.html" class="btn">Next Module</a>
-        <a href="/react-and-d3-workshop/module-4.html" class="btn">Back</a>
+        <a href="/react-and-d3-workshop/module-5.html" class="btn">Next Module</a>
+        <a href="/react-and-d3-workshop/module-3.html" class="btn">Back</a>
       </div>
     </article>
-
   </div>
+  <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
 </body>
 </html>

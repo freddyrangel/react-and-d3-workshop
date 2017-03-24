@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>React and D3 Workshop</title>
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div class="module-3">
+    <div class="banner-image-container">
+      <img class="banner-image" src="images/react-d3.png" alt="React and D3 Banner Title">
+    </div>
+
+    <div class="outer-container">
+      <h1>React 101 Workshop</h1>
+
+      <h2 class="module-title">Module 3: Beyond the Basics</h2>
+
+      <article class="module">
+        <h3>Using Third-Party Libraries</h3>
+        <p>
+        While React abstracts the DOM for you, sometimes you absolutely need
+        access to it. This is the case when you have to use a jQuery plugin or a
+        data visualization library.
+        </p>
+        <p>
+        There are 2 ways to access the DOM directly. The first way is via
+        ReactDOM.findDOMNode(this). This function takes a mounted component
+        and returns the native browser DOM element. The key word here is
+        "mounted". Therefore, in order to use it you want to attempt to access
+        the DOM once the component has been mounted. This is where lifecycle
+        methods come into play. We will use componentDidMount() and
+        componentDidUpdate() to manually use a jQuery plugin.
+        </p>
+        <p>
+        The second way is through refs. You can add a "ref" attribute to any JSX
+        element and be able to access it elsewhere in your component with
+        this.refs.theNameOfMyRef.
+        </p>
+        <div class="codepen-container">
+          <p data-height="500" data-theme-id="dark" data-slug-hash="kkmaJB" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/kkmaJB/">Third-Party Libraries</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+        </div>
+      </article>
+      <article class="navigation">
+        <h2>D3.js 101</h2>
+        <div class="nav-buttons">
+          <a href="/react-and-d3-workshop/module-4.html" class="btn">Next</a>
+          <a href="/react-and-d3-workshop/module-3-part-4.html" class="btn">Back</a>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+</body>
+</html>

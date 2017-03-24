@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>React and D3 Workshop</title>
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div class="module-2">
+    <div class="banner-image-container">
+      <img class="banner-image" src="images/react-d3.png" alt="React and D3 Banner Title">
+    </div>
+
+    <div class="outer-container">
+      <h1>React 101 Workshop</h1>
+
+      <h2 class="module-title">Module 2: React Basics</h2>
+
+      <article class="module">
+        <h3>Reusing Components</h3>
+
+        <p>When you think about it, the DOM is a tree of DOM nodes. React works
+        the same way. Every component has a parent, other than the root
+        component. A React application is a tree of React components.</p>
+
+        <p>This fact allows React to be very fast. It keeps an in-memory
+        representation of the DOM as a tree. Whenever React needs to
+        update the DOM, it will create a new in memory representation of the DOM
+        and diff the new tree with the old tree. That way React knows the
+        minimum number of DOM mutations necessary to update the DOM to the new
+        state of the UI.</p>
+
+        <p>This means a React component must return a tree structure as well.
+        Your React components must have just one return value. That is why in the
+        next example the Header component must wrap its rendered elements in a
+        div.</p>
+
+        <div class="codepen-container">
+          <p data-editable="true" data-height="400" data-theme-id="dark" data-slug-hash="ZOLRLr" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/ZOLRLr/">Reusing Hello World</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+        </div>
+
+        <h3>Walk Through Exercise</h3>
+
+        <div class="codepen-container">
+          <p data-height="400" data-theme-id="dark" data-slug-hash="EgWLkR" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" data-editable="true" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/EgWLkR/">Hello World Walk Through</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+        </div>
+
+        <h3>Practical Exercise</h3>
+
+        <div class="codepen-container">
+          <p data-editable="true" data-height="400" data-theme-id="dark" data-slug-hash="ZOLjqz" data-default-tab="js" data-user="freddyrangel" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/freddyrangel/pen/ZOLjqz/">Practical Exercise 2</a> by Freddy Rangel (<a href="http://codepen.io/freddyrangel">@freddyrangel</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+        </div>
+
+      </article>
+      <article class="navigation">
+        <h2>Next Section: Props and Unidirectional Data Flow</h2>
+        <div class="nav-buttons">
+          <a href="/react-and-d3-workshop/module-2-part-4.html" class="btn">Next</a>
+          <a href="/react-and-d3-workshop/module-2-part-2.html" class="btn">Back</a>
+        </div>
+      </article>
+    </div>
+  </div>
+  <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+</body>
+</html>
